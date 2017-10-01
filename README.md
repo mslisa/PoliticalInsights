@@ -3,7 +3,7 @@
 ## Assignments
 * Initial proposal: https://docs.google.com/document/d/1ZttaQalC6Si81o8bVNPymqfdY3DjCKr2_sSCF8Ytfeo/edit?usp=sharing
 * Progress Report Week 4: https://docs.google.com/document/d/19y70UGbrxiNAH4ylYzBqs5Cg5TbUO97UKbrHVJ9cKXQ/edit#heading=h.vp5m1z6k4yhp
-* Presentation Week 6:
+* Presentation Week 6: https://docs.google.com/presentation/d/1VvlkrU7ksasAXdBGLOyEc8xT_gFi4ZLmoJJh5K9s0vU/edit?usp=sharing
 * Presentation Week 10:
 i
 * Presentation Final: 
@@ -38,9 +38,9 @@ i
 |Tu  9.26 | Lisa M | Github set up, try out data, start week 6 presentation |
 |Tu  9.26 | Scott  | Write up what's already been done |
 |Week5 We  9/27 | CLASS  | Question: Does our bill scoring metric make sense to you?|
-|Tu 10.03 | Lisa B | X |
-|Tu 10.03 | Lisa M | X |
-|Tu 10.03 | Scott  | X |
+|Tu 10.03 | Lisa B | dig into data; finance api; start learning website design coding; Email Joyce/Alberto about week4 feedback and how to send out survey |
+|Tu 10.03 | Lisa M | skeleton of ppt (draft website), dig into data, topic centric (subject object of bills) |
+|Tu 10.03 | Scott  | writing up proposed scoring metrics for class question; dig into data; partisian/ideology concept |
 |Week6 We 10.04 | CLASS  | Presentation |
 |Week6 We 10.04 | CLASS  | Question: |
 |Tu 10.10 | Lisa B | X |
