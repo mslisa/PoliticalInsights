@@ -5,10 +5,10 @@ import re
 class ProPublica():
 
     api_key = 'ODFvfKwCNwTHCbQQf4a3fmCkdW0qU0GnKKpHCe8q'
+    finance_api_key = '1fnG7WUpP1iHulCEmxxuFvPwrjXTBTlABuuZSE4R'
     
     def all_senators(self, congress='115'):
         # Simple function to collect all senators
-        # Uses ProPublica Congress API
         # 115th Congress by default        
         url = "https://api.propublica.org/congress/v1/{congress}/senate/members.json".replace("{congress}", congress)
         header = {"X-API-Key": self.api_key}
@@ -18,7 +18,6 @@ class ProPublica():
         
     def all_reps(self, congress="115"):
         # Simple function to collect all representatives
-        # Uses ProPublica Congress API
         # 115th Congress by default
         url = "https://api.propublica.org/congress/v1/{congress}/house/members.json".replace("{congress}", congress)
         header = {"X-API-Key": self.api_key}
@@ -26,6 +25,23 @@ class ProPublica():
         data = response.json()
         return data['results'][0]['members']
         
+    def get_member(self, member_id):
+        # Lookup method for any individual member of Congress
+        # Based on the Bioguide ID
+        url = "https://api.propublica.org/congress/v1/members/{member-id}.json".replace("{member-id}", member_id)
+        header = {"X-API-Key": self.api_key}
+        response = requests.get(url, headers=header)
+        data = response.json()
+        return data['results'][0]
+        
+    def get_member_fec(self, fec_id, cycle='2016'):
+        # Lookup method for the FEC data on an individual memeber of Congress
+        # Based on the FEC ID, which can be obtained from the Congress API
+        url = "https://api.propublica.org/campaign-finance/v1/{cycle}/candidates/{fec-id}.json".replace("{cycle}", cycle).replace("{fec-id}",fec_id)
+        header = {"X-API-Key": self.finance_api_key}
+        response = requests.get(url, headers=header)
+        data = response.json()
+        return data
         
 class Google():
 
