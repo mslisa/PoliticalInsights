@@ -188,6 +188,39 @@ def distribute_scores(b, chamber):
                 representatives[co]['bill_scores'].append(cosponsor_score)
                 representatives[co]['cosponsor_scores'].append(cosponsor_score)
                 
+def distribute_subjects(b, chamber):
+    '''
+    add each subject for a particular bill to the rep's subject lists
+    
+    written to be very similar to distribute_scores for ease of use
+    '''
+    
+    if 'subjects_top_term' in b.keys():
+        primary_subject = b['subjects_top_term']
+    else:
+        primary_subject = ''
+    
+    sponsor_id = b['sponsor']['bioguide_id']
+    
+    cosponsors=[]
+    for csp in b['cosponsors']:
+        cosponsors.append(csp['bioguide_id'])
+    cosponsor_count = len(cosponsors)
+    
+    if chamber == 's':
+        if sponsor_id in senators:
+            senators[sponsor_id]['sponsor_subjects'][primary_subject] += 1
+        for co in cosponsors:
+            if co in senators:
+                senators[co]['cosponsor_subjects'][primary_subject] += 1
+
+    if chamber == 'h':
+        if sponsor_id in representatives:
+            representatives[sponsor_id]['sponsor_subjects'][primary_subject] += 1
+        for co in cosponsors:
+            if co in representatives:
+                representatives[co]['cosponsor_subjects'][primary_subject] += 1
+                
 def aggregate_scores_by_person(person):
     person['sponsor_count'] = len(person['sponsor_scores'])
     if person['sponsor_count'] != 0:
@@ -202,7 +235,16 @@ def aggregate_scores_by_person(person):
     else:
         person['cosponsor_mean'] = 0.0
     person['cosponsor_status_counts'] = {x: len([i for i in person['cosponsor_scores'] if i == status_scores[x]]) for x in status_scores}
-
+    
+def aggregate_subjects_by_person(person):
+    ss = person['sponsor_subjects']
+    s_top5 = sorted(ss, key=ss.__getitem__, reverse=True)[:5]
+    person['top_sponsor_subjects'] = [(x, ss[x]) for x in s_top5]
+    
+    cs = person['cosponsor_subjects']
+    c_top5 = sorted(cs, key=cs.__getitem__, reverse=True)[:5]
+    person['top_cosponsor_subjects'] = [(x, cs[x]) for x in c_top5]
+    
 def ppp(bill, bipart_threshold=.25):
     '''
     The Partisanship Pants Party helper function!
@@ -266,7 +308,7 @@ def ppp(bill, bipart_threshold=.25):
 folderstring = './Data/ProPublicaBulk'
 
 # Ensure this function call is not commented out if you want updates to happen
-bulk_update()
+#bulk_update()
 
 for cngrss in ['115','114','113']:
 
@@ -324,18 +366,24 @@ for cngrss in ['115','114','113']:
 
     # Define a place to stack individual bill scores
     # Must be in place before running distribute_scores()!
+    # Also add a place to accumulate bill subjects
     for s in senators.keys():
         senators[s]['bill_scores'] = []
         senators[s]['sponsor_scores'] = []
         senators[s]['cosponsor_scores'] = []
+        senators[s]['sponsor_subjects'] = defaultdict(int)
+        senators[s]['cosponsor_subjects'] = defaultdict(int)
     for r in representatives.keys():
         representatives[r]['bill_scores'] = []
         representatives[r]['sponsor_scores'] = []
         representatives[r]['cosponsor_scores'] = []
+        representatives[r]['sponsor_subjects'] = defaultdict(int)
+        representatives[r]['cosponsor_subjects'] = defaultdict(int)
     
     #Gonna need this later...
     party_lookup = {}
-    for c in ['113','114','115']:
+    for c in [cngrss]:
+    #for c in ['113','114','115']:
         for member in all_senators(congress=c)["results"][0]["members"]:
             party_lookup[member['id']] = member['party']
         for member in all_reps(congress=c)["results"][0]["members"]:
@@ -394,6 +442,7 @@ for cngrss in ['115','114','113']:
                 c[bt][b]['score'] = score_bill(c[bt][b])
                 
                 distribute_scores(c[bt][b], bt[0])
+                distribute_subjects(c[bt][b], bt[0])
                 
                 # call the helper function created above to populate the partisanship dictionary
                 ppp(c[bt][b])
@@ -403,6 +452,11 @@ for cngrss in ['115','114','113']:
     for r in representatives:
         aggregate_scores_by_person(representatives[r])
         
+    for s in senators:
+        aggregate_subjects_by_person(senators[s])
+    for r in representatives:
+        aggregate_subjects_by_person(representatives[r])
+            
     # gather up all the average scores to normalize by party
     # nomenclature example: senate republican sponsor = srs
     srs_scores = []
@@ -509,7 +563,9 @@ for cngrss in ['115','114','113']:
               'sponsor_normalized',
               'sponsor_rank',
               'bi_sponsor_count',
-              'bi_sponsor_bi']
+              'bi_sponsor_bi',
+              'top_sponsor_subjects',
+              'top_cosponsor_subjects']
 
     senate_rows_list = []
     house_rows_list = []
