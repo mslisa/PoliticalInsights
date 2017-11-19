@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block rep_row %}
+  <div class="row">
+    <h2>Your Representatives</h2>
+  </div>
+  <div class="row">
+    <form method="post">
+      {% csrf_token %}
+      {{ selected_rep_form}}
+      {% for rep_id, rep in my_reps.items %}
+        <div class="col">
+          <button class="btn btn-link active" type="submit" name='selected_rep' value={{ rep_id }}  aria-label={{ rep_id }}>
+            <img src={{ rep.img_url }} alt={{ rep.name }} height="165" width="135" class="rounded"><br>
+            {{ rep.chamber }}<br>
+            {{ rep.name }}<br>
+          </button>
+        </div>
+      {% endfor %}
+    </form>
+  </div>
+{% endblock %}
+
+{% block metrics %}
+  metrics = ['Effectiveness', 'Leadership', 'Contact']
+  <div class="row">
+    <form method="post">
+      {% csrf_token %}
+      {{ selected_metric_form }}
+      {% for metric in metrics %}
+        <div class="btn-group" role="group" aria-label="Metrics for selected representative">
+          <button type="button" class="btn btn-primary" name={{ metric }}>
+            {{ metric }}
+          </button>
+        </div>
+      {% endfor %}
+    </form>
+  </div>
+{% endblock %}
