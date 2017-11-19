@@ -22,66 +22,14 @@
 ### Code and Programming
 
 * Starspace, a general-purpose neural model for efficient learning of entity embeddings: https://github.com/facebookresearch/Starspace
+* When working with virtualenv, Windows users should do two things:
+  * need to fix how python is called. Either enter <code>alias python='winpty python.exe</code> every time OR
+  * for a more permenant solution, update your .bashrc
+    * <code>cd ~</code>
+    * <code>vim .bashrc</code>
+    * in .bashrc add the <code>alias</code> statement from above
 
 ## Timeline
 
 * Weekly assignments doc: https://docs.google.com/document/d/1sq3Vj2XlGutVVCF3X525YBhhTFJkKFzIJVjs1Vpym2M/edit
-
-| Date | Owner | Description |
-|---|---|---|
-|Tu  9.19 | Lisa B | Get API running, explore data |
-|Tu  9.19 | Lisa M | Get API running, explore data |
-|Tu  9.19 | Scott  | Explore data |
-|Week 4 We  9.20 | CLASS  | Question: Please fill out our survey. |
-|Tu  9.26 | Lisa B | Survey, develop something from data |
-|Tu  9.26 | Lisa M | Github set up, try out data, start week 6 presentation |
-|Tu  9.26 | Scott  | Write up what's already been done |
-|Week 5 We  9/27 | CLASS  | Question: Does our bill scoring metric make sense to you?|
-|Tu 10.03 | Lisa B | dig into data; finance api; start learning website design coding; Email Joyce/Alberto about week4 feedback and how to send out survey |
-|Tu 10.03 | Lisa M | skeleton of ppt (draft website), dig into data, topic centric (subject object of bills) |
-|Tu 10.03 | Scott  | writing up proposed scoring metrics for class question; dig into data; partisian/ideology concept |
-|Week 6 We 10.04 | CLASS  | Presentation |
-|Week 6 We 10.04 | CLASS  | Question: |
-|Tu 10.10 | Lisa B | X |
-|Tu 10.10 | Lisa M | X |
-|Tu 10.10 | Scott  | X |
-|Week 7 We 10.11 | CLASS  | Question: |
-|Tu 10.17 | Lisa B | X |
-|Tu 10.17 | Lisa M | X |
-|Tu 10.17 | Scott  | X |
-|Week 8 We 10.18 | CLASS  | Question:  |
-|Tu 10.24 | Lisa B | X |
-|Tu 10.24 | Lisa M | X |
-|Tu 10.24 | Scott  | X |
-|We 10.25 |  | No Class |
-|Tu 10.31 | Lisa B | X |
-|Tu 10.31 | Lisa M | X |
-|Tu 10.31 | Scott  | X |
-|Week 9 We 11.01 | CLASS  | Question:  |
-|Tu 11.07 | Lisa B | X |
-|Tu 11.07 | Lisa M | X |
-|Tu 11.07 | Scott  | X |
-|Week 10 We 11.08 | CLASS  | Presentation |
-|Week 10 We 11.08 | CLASS  | Question:  |
-|Tu 11.14 | Lisa B | X |
-|Tu 11.14 | Lisa M | X |
-|Tu 11.14 | Scott  | X |
-|Week 11 We 11.15 | CLASS  | Question:  |
-|Tu 11.21 | Lisa B | X |
-|Tu 11.21 | Lisa M | X |
-|Tu 11.21 | Scott  | X |
-|Week 12 We 11.22 | CLASS  | Question:  |
-|Th 11.23 | | Thanksgiving |
-|Tu 11.28 | Lisa B | X |
-|Tu 11.28 | Lisa M | X |
-|Tu 11.28 | Scott  | X |
-|Week 13 We 11.29 | CLASS  | Question:  |
-|Tu 12.05 | Lisa B | X |
-|Tu 12.05 | Lisa M | X |
-|Tu 12.05 | Scott  | X |
-|Week 14 We 12.06 | CLASS  | Question:  |
-|Tu 12.12 | Lisa B | X |
-|Tu 12.12 | Lisa M | X |
-|Tu 12.12 | Scott  | X |
-|Week 15 We 12.13 | CLASS  | FINAL |
 
