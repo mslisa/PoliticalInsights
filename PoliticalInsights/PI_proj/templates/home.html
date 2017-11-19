@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-Did this work?
-{% endblock %}
+  {% if user_address_form.is_bound %}
+    user form is bound
+  {% else %}
+    NOT BOUND
+  {% endif %}
+{% endblock%}

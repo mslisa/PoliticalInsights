@@ -14,41 +14,24 @@
 
       <h1>Political Insights</h1>	<!-- TODO: add in as image -->
 
-     Enter your address here:	<!-- TODO: make this function -->
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ user_address_form.as_p }}
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
 
       <!-- row of reps -->	<!-- TODO: activate button of current page, https://stackoverflow.com/questions/4626431/highlight-the-navigation-menu-for-the-current-page -->
       <div class="row">
-        <h2>Your Representatives</h2>
-      </div>
-      <div class="row">
-        {% for rep_id, rep in my_reps.items %}
-          <div class="col">
-            <button class="btn btn-link active" type="submit" name='rep_select' value={{ rep_id }}>
-              <img src={{ rep.img_url }} alt={{ rep.name }} height="165" width="135" class="rounded"><br>
-              {{ rep.chamber }}<br>
-              {{ rep.name }}<br>
-            </button>
-          </div>
-        {% endfor %}
+        {% block rep_row %}
+        {% endblock %}
       </div>
 
       <br>
 
       <!-- page navigation tabs -->	<!-- TODO: activate button of current page -->
       <div class="row">
-        <nav aria-label="Metric navigation for selected representative">
-          <ul class="pagination">
-            <li class="page-item active">
-              <a class="page-link" href="#" >Effectiveness<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">Leadership</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">Contact</a>
-            </li>
-          </ul>
-        </nav>
+        {% block metrics %}
+        {% endblock %}
       </div>
 
       <!-- Content -->
