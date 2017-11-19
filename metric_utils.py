@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
@@ -26,6 +27,20 @@ class effectiveness():
                     else:
                         colors.append(list(temp_df.color)[i])
                 
+                '''
+                fig=Figure()
+                ax=fig.add_subplot(111)
+                ax.scatter(temp_df.sponsor_rank, temp_df.cosponsor_rank, color=colors, s=temp_df['size'])
+                plt.xlabel('sponsorship rank')
+                plt.ylabel('cosponsorship rank')
+                ax.set_xlim([0,max(temp_df.sponsor_rank)+2])
+                ax.invert_xaxis()
+                ax.set_ylim([0,max(temp_df.cosponsor_rank)+2])
+                ax.invert_yaxis()
+                plt.title('Effectiveness Rankings')
+                return fig
+                '''
+                
                 # Build the plots
                 plt.figure(figsize=(4, 4))
                 
@@ -43,7 +58,7 @@ class effectiveness():
                 
                 plt.tight_layout()
                 
-                plt.savefig('effectiveness.png')
+                return plt.figure()
                 
     def key_stats(self, df, mid):
         if mid in list(df.id):
@@ -116,7 +131,7 @@ class bipartisanship():
                 
                 plt.tight_layout()
                 
-                plt.savefig('bipartisan.png')
+                return plt.figure()
                 
     def key_stats(self, df, mid):
         if mid in list(df.id):
