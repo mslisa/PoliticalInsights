@@ -69,6 +69,8 @@ class effectiveness():
             # Filter the dataframe
             temp_df = df[(df.congress == 115) & (df.chamber == chamber) & (df.party == party)]
             
+            name = list(temp_df[temp_df.id == mid].name)[0]
+            
             s_rank = list(temp_df[temp_df.id == mid].sponsor_rank)[0]
             s_count = list(temp_df[temp_df.id == mid].sponsor_count)[0]
             c_rank = list(temp_df[temp_df.id == mid].cosponsor_rank)[0]
@@ -78,7 +80,7 @@ class effectiveness():
             s_count_percentile = len(temp_df[temp_df.sponsor_count < s_count]) * 1.0 / out_of
             c_count_percentile = len(temp_df[temp_df.cosponsor_count < c_count]) * 1.0 / out_of
             
-            return {'sponsor_effectiveness_rank': s_rank, 'cosponsor_effectiveness_rank': c_rank, 'out_of': out_of,
+            return {'name': name, 'sponsor_effectiveness_rank': s_rank, 'cosponsor_effectiveness_rank': c_rank, 'out_of': out_of,
                     'sponsor_count': s_count, 'sponsor_count_percentile': s_count_percentile,
                     'cosponsor_count': c_count, 'cosponsor_count_percentile': c_count_percentile}
             
@@ -142,8 +144,10 @@ class bipartisanship():
             # Filter the dataframe
             temp_df = df[(df.congress == 115) & (df.chamber == chamber) & (df.party == party)]
             
+            name = list(temp_df[temp_df.id == mid].name)[0]
+            
             bi_pct = list(temp_df[temp_df.id == mid].bi_pct)[0]
             out_of = len(temp_df)
             bi_pct_percentile = len(temp_df[temp_df.bi_pct < bi_pct]) * 1.0 / out_of
             
-            return {'bipartisan_percentage': bi_pct, 'out_of': out_of, 'bipartisan_percentile': bi_pct_percentile}
+            return {'name': name, 'bipartisan_percentage': bi_pct, 'out_of': out_of, 'bipartisan_percentile': bi_pct_percentile}
