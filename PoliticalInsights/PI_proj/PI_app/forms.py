@@ -2,9 +2,9 @@
 # basic path is url--{address, rep, metric}-->server
 # with a return of url<--{metric supply}--server
 
+import pandas as pd
 from django import forms
 from .models import Effectiveness
-
 import api_utils
 
 class UserAddress(forms.Form):
@@ -13,10 +13,17 @@ class UserAddress(forms.Form):
                                    strip=True)    
 
 class SelectRep(forms.Form):
-    selected_rep = forms.ChoiceField(widget=forms.RadioSelect)
+    def __init__(self, my_reps, *args, **kwargs):
+        super(SelectRep, self).__init__(*args, **kwargs)
+        self.fields['selected_rep'] = forms.ChoiceField(
+            choices=[(rep_id, rep_key) for rep_id, rep_key in my_reps.items()],
+            widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'})
+            )
 
 class SelectMetric(forms.Form):
     METRICS = [('Effectiveness', 'Effectiveness'),
                ('Bipartisanship', 'Bipartisanship'),
                ('Contact', 'Contact')]
-    selected_metric = forms.ChoiceField(widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'}), choices=METRICS)
+    selected_metric = forms.ChoiceField(
+        choices=METRICS,
+        widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'})        )

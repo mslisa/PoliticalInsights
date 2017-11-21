@@ -8,18 +8,9 @@
     <div class="row">
       <h2>Your Representatives</h2>
     </div>
-    
-    <div class="row">]
-      {{ selected_rep_form }}
-      {% for rep_id, rep in my_reps.items %}
-        <div class="col">
-          <button class="btn btn-link active" type="submit" name='selected_rep' value={{ rep_id }}  aria-label={{ rep_id }}>
-            <img src={{ rep.img_url }} alt={{ rep.name }} height="165" width="135" class="rounded"><br>
-            {{ rep.chamber }}<br>
-            {{ rep.name }}<br>
-          </button>
-        </div>
-      {% endfor %}
+
+    <div class="row">
+      selected_rep_form
     </div>
   {% endblock %}
 
@@ -37,7 +28,7 @@
     
 <!-- DELETE THIS AFTER DEBUGGING -->
 <div class="row">
-{{ posted_data }}
+posted_data: {{ posted_data }}
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-primary active">
     <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
