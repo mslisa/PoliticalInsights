@@ -20,6 +20,8 @@ class SelectRep(forms.Form):
             widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'})
             )
 
+    
+
 class SelectMetric(forms.Form):
     METRICS = [('Effectiveness', 'Effectiveness'),
                ('Bipartisanship', 'Bipartisanship'),

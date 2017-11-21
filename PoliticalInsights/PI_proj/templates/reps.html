@@ -10,17 +10,29 @@
     </div>
 
     <div class="row">
-      {{ selected_rep_form }}
+      <div class="btn-group" data-toggle="buttons">
+        {% for rep in selected_rep_form.selected_rep %}
+          <label for="{{ rep.choice_label.id_for_label }}" class="btn btn-link">
+            <img src={{ rep.choice_label.img_url }} alt={{ rep.choice_label.name }} height="165" width="135" class="rounded"><br>
+            {{ rep.choice_label.chamber }}<br>
+            {{ rep.choice_label.name }}<br>
+
+             
+            <span class="radio">{{ rep.tag }}</span>
+          </label>
+        {% endfor %}
+      </div>
     </div>
   {% endblock %}
 
-  <!-- page navigation tabs -->	<!-- TODO: activate button of current page -->
+  <!-- page navigation tabs -->
   {% block metrics %}
     <div class="row">
       <div class="btn-group" data-toggle="buttons">
         {% for metric in selected_metric_form.selected_metric %}
           <label for="{{ metric.id_for_label }}" class="btn btn-primary">
-            {{ metric.tag }} {{ metric.choice_label }}
+            {{ metric.choice_label }}
+            <span class="radio">{{ metric.tag }}</span>
           </label>
         {% endfor %}
       </div>
