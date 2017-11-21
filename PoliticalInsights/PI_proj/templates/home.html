@@ -1,9 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'reps.html' %}
 
 {% block content %}
+
+  <!-- if user_address form is bound, show the reps -->
   {% if user_address_form.is_bound %}
-    user form is bound
+    {{ block.super }}
   {% else %}
-    NOT BOUND
+    Please enter your address to get started.
   {% endif %}
-{% endblock%}
+
+{% endblock %}

@@ -7,38 +7,31 @@
     <title>{% block title %}Political Insights{% endblock %}</title>
     <link rel="mask-icon" type="image/png" href="/favicon.ico"> <!-- TODO: http://faviconit.com -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
   </head>
  
   <body>
-    <div class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <h1>Political Insights</h1>	<!-- TODO: add in as image -->
+      </div>
 
-      <h1>Political Insights</h1>	<!-- TODO: add in as image -->
+      <!-- wrap whole page in form so everything submits with each submit -->
+      <form method="post">
+        <!-- user address field -->
+        <div class="row">
+          {% csrf_token %}
+          {{ user_address_form.as_p }}
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
 
-      <form method="post" novalidate>
-        {% csrf_token %}
-        {{ user_address_form.as_p }}
-        <button type="submit" class="btn btn-success">Submit</button>
+        <!-- Content -->
+        <div class="row">
+          {% block content %}
+          {% endblock %}
+        </div>
       </form>
 
-      <!-- row of reps -->	<!-- TODO: activate button of current page, https://stackoverflow.com/questions/4626431/highlight-the-navigation-menu-for-the-current-page -->
-      <div class="row">
-        {% block rep_row %}
-        {% endblock %}
-      </div>
-
-      <br>
-
-      <!-- page navigation tabs -->	<!-- TODO: activate button of current page -->
-      <div class="row">
-        {% block metrics %}
-        {% endblock %}
-      </div>
-
-      <!-- Content -->
-      <div class="row">
-        {% block content %}
-        {% endblock %}
-      </div>
     </div>
   </body>
 

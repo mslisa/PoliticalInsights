@@ -5,11 +5,18 @@
 from django import forms
 from .models import Effectiveness
 
+import api_utils
+
 class UserAddress(forms.Form):
-    user_address = forms.CharField(label='Your address', strip=True)
+    user_address = forms.CharField(widget=forms.TextInput(attrs={'size':80}),
+                                   label='Please enter your address',
+                                   strip=True)    
 
 class SelectRep(forms.Form):
-    selected_rep = forms.CharField(strip=True)
+    selected_rep = forms.ChoiceField(widget=forms.RadioSelect)
 
-class SelectMetricType(forms.Form):
-    selected_metric = forms.CharField(strip=True)
+class SelectMetric(forms.Form):
+    METRICS = [('Effectiveness', 'Effectiveness'),
+               ('Bipartisanship', 'Bipartisanship'),
+               ('Contact', 'Contact')]
+    selected_metric = forms.ChoiceField(widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'}), choices=METRICS)

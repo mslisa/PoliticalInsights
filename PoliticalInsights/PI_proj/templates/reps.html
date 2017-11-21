@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 
-{% block rep_row %}
-  <div class="row">
-    <h2>Your Representatives</h2>
-  </div>
-  <div class="row">
-    <form method="post">
-      {% csrf_token %}
-      {{ selected_rep_form}}
+{% block content %}
+  <div class="container-fluid">
+
+  <!-- row of reps -->	<!-- TODO: activate button of current page, https://stackoverflow.com/questions/4626431/highlight-the-navigation-menu-for-the-current-page -->
+  {% block rep_row %}
+    <div class="row">
+      <h2>Your Representatives</h2>
+    </div>
+    
+    <div class="row">]
+      {{ selected_rep_form }}
       {% for rep_id, rep in my_reps.items %}
         <div class="col">
           <button class="btn btn-link active" type="submit" name='selected_rep' value={{ rep_id }}  aria-label={{ rep_id }}>
@@ -17,23 +20,36 @@
           </button>
         </div>
       {% endfor %}
-    </form>
-  </div>
-{% endblock %}
+    </div>
+  {% endblock %}
 
-{% block metrics %}
-  metrics = ['Effectiveness', 'Leadership', 'Contact']
-  <div class="row">
-    <form method="post">
-      {% csrf_token %}
-      {{ selected_metric_form }}
-      {% for metric in metrics %}
-        <div class="btn-group" role="group" aria-label="Metrics for selected representative">
-          <button type="button" class="btn btn-primary" name={{ metric }}>
-            {{ metric }}
-          </button>
-        </div>
-      {% endfor %}
-    </form>
-  </div>
+  <!-- page navigation tabs -->	<!-- TODO: activate button of current page -->
+  {% block metrics %}
+    <div class="row">
+      <div class="btn-group" data-toggle="buttons">
+        {% for metric in selected_metric_form.selected_metric %}
+          <label for="{{ metric.id_for_label }}" class="btn btn-primary">
+            {{ metric.tag }} {{ metric.choice_label }}
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+    
+<!-- DELETE THIS AFTER DEBUGGING -->
+<div class="row">
+{{ posted_data }}
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary active">
+    <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" name="options" id="option3" autocomplete="off"> Radio 3
+  </label>
+</div>
+</div>
+<!-- END OF DELETE -->
+  {% endblock %}
 {% endblock %}
