@@ -151,3 +151,60 @@ class bipartisanship():
             bi_pct_percentile = len(temp_df[temp_df.bi_pct < bi_pct]) * 1.0 / out_of
             
             return {'name': name, 'bipartisan_percentage': bi_pct, 'out_of': out_of, 'bipartisan_percentile': bi_pct_percentile}
+        
+class financials():
+    
+    def fin_plot(self,df1,REP_ID):
+        #make dictionary
+        #c_dict = defaultdict(dict)
+        c_dict = {}
+
+        for rows in range(0,len(df1)):
+            name_ = df1[3][rows]
+            party_ = u"{}".format(df1[4][rows])
+            status_ = df1[5][rows]
+            id_ = df1[0][rows]
+            total_from_individuals_ = df1[8][rows]
+            total_from_pacs_ = df1[9][rows]
+            c_dict[id_] = {'party':party_, 'status':status_, 
+                           'name': name_, 'id':id_, 'total_from_individuals':total_from_individuals_,
+                          'total_from_pacs':total_from_pacs_}
+
+
+        ids = [i for i in df1[0]]
+
+        for ii in ids:
+            if ii == {REP_ID}:
+                if c_dict[str(ii)]['party'] == u'DEM':
+                    plt.scatter(c_dict[str(ii)]['total_from_individuals'],c_dict[str(ii)]['total_from_pacs'],s=100,c='b',edgecolors='w',zorder=10)
+                elif c_dict[str(ii)]['party'] == u'REP':
+                    plt.scatter(c_dict[str(ii)]['total_from_individuals'],c_dict[str(ii)]['total_from_pacs'],s=100,c='r',edgecolors='w',zorder=10)
+                else:
+                    plt.scatter(c_dict[str(ii)]['total_from_individuals'],c_dict[str(ii)]['total_from_pacs'],s=100,c='g',edgecolors='w',zorder=10)
+
+            else:
+                if c_dict[str(ii)]['party'] == u'DEM':
+                    plt.scatter(c_dict[str(ii)]['total_from_individuals'],c_dict[str(ii)]['total_from_pacs'],s=100,color='w',edgecolors='b')
+                elif c_dict[str(ii)]['party'] == u'REP':
+                    plt.scatter(c_dict[str(ii)]['total_from_individuals'],c_dict[str(ii)]['total_from_pacs'],s=100,color='w',edgecolors='r')
+                else:
+                    plt.scatter(c_dict[str(ii)]['total_from_individuals'],c_dict[str(ii)]['total_from_pacs'],s=100,color='w',edgecolors='g')
+
+            plt.title(str(c_dict[REP_ID]['name']) + " CAMPAIGN CONTRIBUTIONS")
+            plt.xlabel("Total ($) From Individuals")
+            plt.ticklabel_format(style='sci', axis='y')
+            plt.ticklabel_format(style='sci', axis='x')
+
+            #Creating our line
+            slope = df1[9].max()/df1[8].max()
+            x_0 = 0
+            y_0 = 0
+            x_1 = df1[8].max()
+            y_1 = slope*(x_1 - x_0) + y_0
+            plt.plot([x_0, x_1], [y_0, y_1], linewidth=0.5,c='black') 
+            plt.ylabel("Total ($) From PACS")
+        plt.show();
+        #plt.savefig('findata1.png')
+
+    if __name__ == "__main__":
+        main()
