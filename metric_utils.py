@@ -206,5 +206,98 @@ class financials():
         plt.show();
         #plt.savefig('findata1.png')
 
-    if __name__ == "__main__":
-        main()
+class twitter_stuff():
+    
+    def twitter(self,df_t,REP_ID):
+        
+        import re, string
+        import pandas as pd
+        from IPython.display import Image
+        from wordcloud import WordCloud
+        from nltk.corpus import stopwords
+        import matplotlib.pyplot as plt
+        from collections import defaultdict
+
+        
+        #Converting rep_id to name for twitter query
+
+        print "Public Perception of ", df_t.loc[df_t['id'] == REP_ID, 'name'].item(), "\n"
+        print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\n"
+        print "Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\n"
+        print "Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), "\n"
+
+
+        topics_list = [
+        'Agriculture and Food [127]', 'Animals [52]','Armed Forces and National Security [664]','Arts, Culture, Religion [33]',
+        'Civil Rights and Liberties, Minority Issues [111]',
+        'Commerce [155]','Congress [306]','Crime and Law Enforcement [445]','Economics and Public Finance [96]',
+        'Education [308]','Emergency Management [103]','Energy [212]',
+        'Environmental Protection [195]','Families [44]','Finance and Financial Sector [270]',
+        'Foreign Trade and International Finance [55]','Government Operations and Politics [573]',
+        'Health [791]','Housing and Community Development [80]','Immigration [222]',
+        'International Affairs [475]','Labor and Employment [214]','Law [74]',
+        'Native Americans [106]','Public Lands and Natural Resources [439]','Science, Technology, Communications [180]',
+        'Social Sciences and History [4]','Social Welfare [97]','Sports and Recreation [44]',
+        'Taxation [647]','Transportation and Public Works [249]','Water Resources Development [46]']
+
+        #cleaning up topics
+        topics_ = [str(item).split("[")[0] for item in topics_list]
+
+        stop_words = set(stopwords.words( 'english' ))
+
+        # #Adding some interesting topics
+        topics_.insert(0,"Democrat")
+        topics_.insert(0,"Republican")
+        topics_.insert(0,str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()))
+
+        #making dictionary to keep track of the topics being discussed online
+        topics_dict = defaultdict(dict)
+        # topics_dict = {}
+
+        #cleaning text
+
+        text = df_t.loc[df_t['id'] == REP_ID, 'tweet_text'].item().replace("u'",'').lower()
+        text = ' '.join([str(i).strip("'[]") for i in text.split(",")])
+        text_list = list(text.split("  "))
+
+        #organizing text
+        topic_string = [str(i).lower() for i in topics_]
+
+
+        for item in topic_string:
+            for i in text_list:
+                if i in item:
+                    if len(i)>2:
+                        if i not in stop_words:
+                            try:
+                                if topics_dict[item][i]:
+                                    topics_dict[item][i] += 1  
+                                else:
+                                    topics_dict[item][i] = 1
+                            except:
+                                topics_dict[item][i] = 1                      
+
+        ##Topic Summary
+
+        if not topics_dict:
+            print ("\nTopics: Variety")
+        else:
+            print ("\nTopics: \n")
+            i = 1
+            for k,v in topics_dict.iteritems():
+                print i," - ", k.title(), ": ", sum(v.values()),"tweet(s)."
+                i += 1
+
+
+        #word cloud portion!
+
+        wordcloud = WordCloud().generate(text)
+        wordcloud = WordCloud(max_font_size=40).generate(text)
+        plt.figure()
+        plt.imshow(wordcloud, interpolation="bilinear")
+        plt.axis("off")
+        plt.show();
+        # plt.savefig('word_cloud.png');
+
+if __name__ == "__main__":
+    main()
