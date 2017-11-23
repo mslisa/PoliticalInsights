@@ -161,9 +161,6 @@ class financials():
         import matplotlib.pyplot as plt
         from collections import defaultdict
 
-        #read in CSV file
-        df1 = pd.read_csv("findata/fincampaign_w_twitter.csv",header=None)
-
         #make dictionary
         c_dict = defaultdict(dict)
 
