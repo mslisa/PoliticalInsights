@@ -12,12 +12,10 @@
     <div class="row">
       <div class="btn-group" data-toggle="buttons">
         {% for rep in selected_rep_form.selected_rep %}
-          <label for="{{ rep.choice_label.id_for_label }}" class="btn btn-link">
+          <label for="{{ rep.id_for_label }}" class="btn btn-link">
             <img src={{ rep.choice_label.img_url }} alt={{ rep.choice_label.name }} height="165" width="135" class="rounded"><br>
             {{ rep.choice_label.chamber }}<br>
             {{ rep.choice_label.name }}<br>
-
-             
             <span class="radio">{{ rep.tag }}</span>
           </label>
         {% endfor %}
@@ -41,17 +39,6 @@
 <!-- DELETE THIS AFTER DEBUGGING -->
 <div class="row">
 posted_data: {{ posted_data }}
-<div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-primary active">
-    <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
-  </label>
-  <label class="btn btn-primary">
-    <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
-  </label>
-  <label class="btn btn-primary">
-    <input type="radio" name="options" id="option3" autocomplete="off"> Radio 3
-  </label>
-</div>
 </div>
 <!-- END OF DELETE -->
   {% endblock %}
