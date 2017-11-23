@@ -156,8 +156,16 @@ class financials():
     
     def fin_plot(self,df1,REP_ID):
         #make dictionary
-        #c_dict = defaultdict(dict)
-        c_dict = {}
+        
+        import pandas as pd
+        import matplotlib.pyplot as plt
+        from collections import defaultdict
+
+        #read in CSV file
+        df1 = pd.read_csv("findata/fincampaign_w_twitter.csv",header=None)
+
+        #make dictionary
+        c_dict = defaultdict(dict)
 
         for rows in range(0,len(df1)):
             name_ = df1[3][rows]
@@ -205,6 +213,7 @@ class financials():
             plt.ylabel("Total ($) From PACS")
         plt.show();
         #plt.savefig('findata1.png')
+
 
 class twitter_stuff():
     
