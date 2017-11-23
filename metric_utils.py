@@ -203,8 +203,9 @@ class financials():
             y_1 = slope*(x_1 - x_0) + y_0
             plt.plot([x_0, x_1], [y_0, y_1], linewidth=0.5,c='black') 
             plt.ylabel("Total ($) From PACS")
-        plt.show();
+        #plt.show();
         #plt.savefig('findata1.png')
+        return plt.figure()
 
 class twitter_stuff():
     
@@ -296,8 +297,9 @@ class twitter_stuff():
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
-        plt.show();
+        # plt.show();
         # plt.savefig('word_cloud.png');
+        return plt.figure()
 
 if __name__ == "__main__":
     main()

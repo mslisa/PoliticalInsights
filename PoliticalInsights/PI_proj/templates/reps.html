@@ -23,8 +23,8 @@
     </div>
   {% endblock %}
 
-  <!-- page navigation tabs -->
   {% block metrics %}
+    <!-- page navigation tabs -->
     <div class="row">
       <div class="btn-group" data-toggle="buttons">
         {% for metric in selected_metric_form.selected_metric %}
@@ -34,6 +34,12 @@
           </label>
         {% endfor %}
       </div>
+    </div>
+
+    <!-- metrics stuff -->
+    <div class="row">
+      {{ fig_response }}
+      {{ text_stat }}
     </div>
     
 <!-- DELETE THIS AFTER DEBUGGING -->
