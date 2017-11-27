@@ -7,7 +7,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 # django specific imports
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 
 # model imports
 from .models import Effectiveness
@@ -71,6 +71,14 @@ def home(request):
         except:
             rendered_data['error_message'] = 'Address not found. Please try again.'
             return render(request, 'home.html', rendered_data)
+        
+        # used POSTed rep otherwise initialize to any rep
+        rendered_data['my_reps'] = my_reps
+        if 'selected_rep' in request.POST:
+            i_rep = request.POST['selected_rep']
+        else:
+            i_rep = my_reps.keys()[0]
+        rendered_data['selected_rep_form'] = SelectRep(my_reps, initial={'selected_rep': i_rep})
 
         # TODO delete this and make sure it's out of html. Dev only.
         rendered_data['posted_data']=request.POST
@@ -82,40 +90,63 @@ def home(request):
             metric = 'Contact'
         rendered_data['selected_metric_form'] = SelectMetric(initial={'selected_metric': metric})
         
-        # used POSTed rep otherwise initialize to any rep
-
-        
-        rendered_data['my_reps'] = my_reps
-        if 'selected_rep' in request.POST:
-            i_rep = request.POST['selected_rep']
-        else:
-            i_rep = my_reps.keys()[0]
-        rendered_data['selected_rep_form'] = SelectRep(my_reps, initial={'selected_rep': i_rep})
-        
         # get graphs and figures to display dependent upon metric        
         if metric == 'Contact':
             rendered_data['text_stat'] = {"msg": "You've selected Contact"}
+            
         elif metric == 'Effectiveness':
             df = pd.read_csv('data/effectiveness.csv')
             e = metric_utils.effectiveness()
             fig = e.generate_plot(df, i_rep)     # return plt.figure()
             rendered_data['fig'] = fig_response(fig)
             rendered_data['text_stat'] = e.key_stats(df, i_rep)   # return dictionary
+            
         elif metric == 'Bipartisanship':
             df = pd.read_csv('data/effectiveness.csv')
             b = metric_utils.bipartisanship()
             fig = b.generate_plot(df, i_rep)     # return plt.figure()
             rendered_data['fig'] = fig_response(fig)
             rendered_data['text_stat'] = b.key_stats(df, i_rep)   # return dictionary
+            
         elif metric == 'Financial':
             df = pd.read_csv("findata/fincampaign.csv",header=None)
             f = metric_utils.financials()
             fig = f.fin_plot(df, i_rep)      # return plt.figure()
             rendered_data['fig'] = fig_response(fig)
+            
         elif metric == 'Social':
             df = pd.read_csv('findata/final_twitter_df.csv')
             t = metric_utils.twitter_stuff()
             fig = t.twitter(df, i_rep)      # return plt.figure()
-            rendered_data['fig'] = fig_response(fig)          
+            rendered_data['fig'] = fig_response(fig)  
+                    
 
     return render(request, 'home.html', rendered_data)
+
+# file charts.py
+def simple_chart(request):
+    import random
+    import django
+    import datetime
+    
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    from matplotlib.figure import Figure
+    from matplotlib.dates import DateFormatter
+
+    fig=Figure()
+    ax=fig.add_subplot(111)
+    x=[]
+    y=[]
+    now=datetime.datetime.now()
+    delta=datetime.timedelta(days=1)
+    for i in range(10):
+        x.append(now)
+        now+=delta
+        y.append(random.randint(0, 1000))
+    ax.plot_date(x, y, '-')
+    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+    fig.autofmt_xdate()
+    canvas=FigureCanvas(fig)
+    response=django.http.HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    return response
