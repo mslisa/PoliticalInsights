@@ -27,12 +27,21 @@ def get_reps(user_address):
     g = api_utils.Google()
     my_reps = {}
 
+    def get_title(chamber):
+        if chamber == 'house':
+            return "Representative"
+        elif chamber == 'senate':
+            return "Senator"
+        else:
+            return None
+
     #TODO validate address
     my_reps_g = g.ids_from_address(user_address)
-
+       
     for chamber, member_list in my_reps_g.items():
         for member_id, member_info in member_list.items():
             my_reps[member_id] = {'chamber': chamber,
+                                  'official_title': get_title(chamber),
                                   'img_url': member_info['img_url'],
                                   'name': member_info['name']
                                   }
@@ -56,6 +65,13 @@ def home(request):
     # if POST request (user entered information) then process form data
     if request.method == 'POST':
 
+        # check that address is valid
+        try:
+            my_reps = get_reps(request.POST['user_address'])
+        except:
+            rendered_data['error_message'] = 'Address not found. Please try again.'
+            return render(request, 'home.html', rendered_data)
+
         # TODO delete this and make sure it's out of html. Dev only.
         rendered_data['posted_data']=request.POST
 
@@ -67,7 +83,8 @@ def home(request):
         rendered_data['selected_metric_form'] = SelectMetric(initial={'selected_metric': metric})
         
         # used POSTed rep otherwise initialize to any rep
-        my_reps = get_reps(request.POST['user_address'])
+
+        
         rendered_data['my_reps'] = my_reps
         if 'selected_rep' in request.POST:
             i_rep = request.POST['selected_rep']

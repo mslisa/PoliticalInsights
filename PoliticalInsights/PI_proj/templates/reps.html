@@ -14,7 +14,7 @@
         {% for rep in selected_rep_form.selected_rep %}
           <label for="{{ rep.id_for_label }}" class="btn btn-link">
             <img src={{ rep.choice_label.img_url }} alt={{ rep.choice_label.name }} height="165" width="135" class="rounded"><br>
-            {{ rep.choice_label.chamber }}<br>
+            {{ rep.choice_label.official_title }}<br>
             {{ rep.choice_label.name }}<br>
             <span class="radio">{{ rep.tag }}</span>
           </label>

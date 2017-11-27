@@ -3,8 +3,13 @@
 {% block content %}
 
   <!-- if user_address form is bound, show the reps -->
-  {% if user_address_form.is_bound %}
+
+  {% if error_message %}
+    {{ error_message }}
+
+  {% elif user_address_form.is_bound %}
     {{ block.super }}
+
   {% else %}
     Please enter your address to get started.
   {% endif %}
