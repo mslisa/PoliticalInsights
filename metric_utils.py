@@ -46,8 +46,8 @@ class effectiveness():
                 
                 #plt.subplot(221)
                 plt.scatter(temp_df.sponsor_rank, temp_df.cosponsor_rank, color=colors, s=temp_df['size'])
-                plt.xlabel('sponsorship rank')
-                plt.ylabel('cosponsorship rank')
+                plt.xlabel('Sponsorship rank')
+                plt.ylabel('Co-sponsorship rank')
                 ax = plt.gca()
                 ax.set_xlim([0,max(temp_df.sponsor_rank)+2])
                 ax.invert_xaxis()
@@ -176,10 +176,9 @@ class financials():
                           'total_from_pacs':total_from_pacs_}
 
 
-        ids = [i for i in df1[0]]
-
+        ids = [i for i in c_dict.keys()]
         for ii in ids:
-            if ii == {REP_ID}:
+            if ii == REP_ID:
                 if c_dict[str(ii)]['party'] == u'DEM':
                     plt.scatter(c_dict[str(ii)]['total_from_individuals'],c_dict[str(ii)]['total_from_pacs'],s=100,c='b',edgecolors='w',zorder=10)
                 elif c_dict[str(ii)]['party'] == u'REP':
@@ -197,8 +196,13 @@ class financials():
 
             plt.title(str(c_dict[REP_ID]['name']) + " CAMPAIGN CONTRIBUTIONS")
             plt.xlabel("Total ($) From Individuals")
-            plt.ticklabel_format(style='sci', axis='y')
-            plt.ticklabel_format(style='sci', axis='x')
+            
+            plt.ticklabel_format(style='plain', axis='y')
+            plt.ticklabel_format(style='plain', axis='x')
+            
+            #adding 10%
+            plt.xlim([(-df1[8].max()*0.1),df1[8].max()+(df1[8].max()*0.1)])
+            plt.ylim([(-df1[9].max()*0.1),df1[9].max()+(df1[9].max()*0.1)])
 
             #Creating our line
             slope = df1[9].max()/df1[8].max()
@@ -207,9 +211,10 @@ class financials():
             x_1 = df1[8].max()
             y_1 = slope*(x_1 - x_0) + y_0
             plt.plot([x_0, x_1], [y_0, y_1], linewidth=0.5,c='black') 
-            plt.ylabel("Total ($) From PACS")
+            plt.ylabel("Total ($) From PACS");
+        #plt.figure(figsize=(4, 4))
         plt.show();
-        #plt.savefig('findata1.png')
+        # plt.savefig('findata.png');
 
 
 class twitter_stuff():
@@ -227,12 +232,12 @@ class twitter_stuff():
         
         #Converting rep_id to name for twitter query
 
-        print "Public Perception of ", df_t.loc[df_t['id'] == REP_ID, 'name'].item(), "\n"
-        print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\n"
-        print "Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\n"
-        print "Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), "\n"
+        print "Public Perception of ", df_t.loc[df_t['id'] == REP_ID, 'name'].item(), "\t ", str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()), "\n"
+        print "*"*75,"\n"
+        print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\t Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\t Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),"\n"
 
-
+        print "*"*75,"\n"
+        
         topics_list = [
         'Agriculture and Food [127]', 'Animals [52]','Armed Forces and National Security [664]','Arts, Culture, Religion [33]',
         'Civil Rights and Liberties, Minority Issues [111]',
@@ -258,12 +263,24 @@ class twitter_stuff():
 
         #making dictionary to keep track of the topics being discussed online
         topics_dict = defaultdict(dict)
-        # topics_dict = {}
 
         #cleaning text
 
         text = df_t.loc[df_t['id'] == REP_ID, 'tweet_text'].item().replace("u'",'').lower()
         text = ' '.join([str(i).strip("'[]") for i in text.split(",")])
+        
+        #adding hashtags to topics!
+        for word in text.split():
+            if ("#" in word):
+                topics_.insert(0,str(word))
+        
+        #removing some stuff
+        for word in text.split():
+            if ("@" not in word) and ("\u" not in word) and ("https" not in word) and ("rt" not in word) and ("retweet" not in word):
+                next
+            else:
+                text = text.replace(word,"")
+        
         text_list = list(text.split("  "))
 
         #organizing text
@@ -286,19 +303,20 @@ class twitter_stuff():
         ##Topic Summary
 
         if not topics_dict:
-            print ("\nTopics: Variety")
+            print ("\nTrending Topics: Variety \n")
+            print ("(Twitter data on this representative is limited or non existent.)")
         else:
-            print ("\nTopics: \n")
+            print ("\nTrending Topics: \n")
             i = 1
-            for k,v in topics_dict.iteritems():
-                print i," - ", k.title(), ": ", sum(v.values()),"tweet(s)."
+            for key in sorted(topics_dict.iterkeys()):
+                print i," - ", key.title(), ": ", sum(topics_dict[key].values()),"tweet(s)."
                 i += 1
 
 
         #word cloud portion!
 
         wordcloud = WordCloud().generate(text)
-        wordcloud = WordCloud(max_font_size=40).generate(text)
+        wordcloud = WordCloud(max_font_size=50).generate(text)
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
