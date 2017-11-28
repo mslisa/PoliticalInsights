@@ -3,6 +3,7 @@ import numpy as np
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
+from collections import OrderedDict
 
 class effectiveness():
 
@@ -57,8 +58,12 @@ class effectiveness():
                 plt.title('Effectiveness Rankings')
                 
                 plt.tight_layout()
+                fig_exp = "Effectiveness is an indication of how successful members are at writing bills that go on to become law. \
+Being ranked #1 would mean that the member sponsors or cosponsors bills that make it further along in the legislative \
+process, on average, than the rest of the members in his or her caucus. This figure shows the member's effectiveness both \
+as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
                 
-                return plt.figure()
+                return {'fig': plt.figure(), 'fig_explanation': fig_exp}
                 
     def key_stats(self, df, mid):
         if mid in list(df.id):
@@ -80,10 +85,13 @@ class effectiveness():
             s_count_percentile = len(temp_df[temp_df.sponsor_count < s_count]) * 1.0 / out_of
             c_count_percentile = len(temp_df[temp_df.cosponsor_count < c_count]) * 1.0 / out_of
             
-            return {'name': name, 'sponsor_effectiveness_rank': s_rank, 'cosponsor_effectiveness_rank': c_rank, 'out_of': out_of,
-                    'sponsor_count': s_count, 'sponsor_count_percentile': s_count_percentile,
-                    'cosponsor_count': c_count, 'cosponsor_count_percentile': c_count_percentile}
+            out_dict = OrderedDict()
+            out_dict['stat1'] = {'stat': '%s' %s_count, 'stat_explanation': 'Bills sponsored'}
+            out_dict['stat2'] = {'stat': '%s out of %s' %(s_rank, out_of), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
+            out_dict['stat3'] = {'stat': '%s' %c_count, 'stat_explanation': 'Bills cosponsored'}
+            out_dict['stat4'] = {'stat': '%s out of %s' %(c_rank, out_of), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
             
+            return out_dict
             
 
 class bipartisanship():
@@ -133,7 +141,12 @@ class bipartisanship():
                 
                 plt.tight_layout()
                 
-                return plt.figure()
+                fig_exp = "This Bipartisanship figure indicates the degree to which a member sponsors legislation that garners \
+cosponsorship support from members of the opposite party. The blue and red sections show the distribution for democrats and republicans, respectively. \
+The solid line shows where this particular member falls in their party's distribution. For this analysis, a bill is considered to have bipartisan \
+support if at least 25% of its cosponsors were members from a party different from the sponsor's party."
+                
+                return {'fig': plt.figure(), 'fig_explanation': fig_exp}
                 
     def key_stats(self, df, mid):
         if mid in list(df.id):
@@ -150,7 +163,11 @@ class bipartisanship():
             out_of = len(temp_df)
             bi_pct_percentile = len(temp_df[temp_df.bi_pct < bi_pct]) * 1.0 / out_of
             
-            return {'name': name, 'bipartisan_percentage': bi_pct, 'out_of': out_of, 'bipartisan_percentile': bi_pct_percentile}
+            out_dict = OrderedDict()
+            out_dict['stat1'] = {'stat': '%s%%' %round(bi_pct*100), 'stat_explanation': 'Percentage of sponsored bills that gained bipartisan cosponsorship'}
+            out_dict['stat2'] = {'stat': '%s%%' %round(bi_pct_percentile*100), 'stat_explanation': 'Percentage of own party out-performed in this metric'}
+            
+            return out_dict
         
 class financials():
     
