@@ -21,5 +21,7 @@ from PI_app import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^charts/$', views.simple_chart, name='chart_test'),
+    url(r'^charts/$', views.chart_get_function, name='chart_test'),
+    #url(r'^mpl/$', views.get_image, name='chart_test'),
+    url(r'^inspect/$', views.dump_request),
 ]
