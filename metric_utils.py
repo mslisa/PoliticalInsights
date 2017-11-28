@@ -211,11 +211,11 @@ class financials():
             x_1 = df1[8].max()
             y_1 = slope*(x_1 - x_0) + y_0
             plt.plot([x_0, x_1], [y_0, y_1], linewidth=0.5,c='black') 
-            plt.ylabel("Total ($) From PACS");
-        #plt.figure(figsize=(4, 4))
-        plt.show();
-        # plt.savefig('findata.png');
-
+            plt.ylabel("Total ($) From PACS")
+	#plt.figure(figsize=(4,4))
+        #plt.show();
+        #plt.savefig('findata1.png')
+        return plt.figure()
 
 class twitter_stuff():
     
@@ -241,7 +241,6 @@ class twitter_stuff():
         topics_list = [
         'Agriculture and Food [127]', 'Animals [52]','Armed Forces and National Security [664]','Arts, Culture, Religion [33]',
         'Civil Rights and Liberties, Minority Issues [111]',
-        'Commerce [155]','Congress [306]','Crime and Law Enforcement [445]','Economics and Public Finance [96]',
         'Education [308]','Emergency Management [103]','Energy [212]',
         'Environmental Protection [195]','Families [44]','Finance and Financial Sector [270]',
         'Foreign Trade and International Finance [55]','Government Operations and Politics [573]',
@@ -320,8 +319,9 @@ class twitter_stuff():
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
-        plt.show();
+        # plt.show();
         # plt.savefig('word_cloud.png');
+        return plt.figure()
 
 if __name__ == "__main__":
     main()

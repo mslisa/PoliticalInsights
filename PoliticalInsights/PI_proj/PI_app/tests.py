@@ -16,3 +16,15 @@ class HomeTests(TestCase):
     def test_home_url_resolves_home_view(self):
         view = resolve('/')
         self.assertEquals(view.func, home)
+
+    def test_invalid_address_shows_error_message(self):
+        pass
+
+    def test_valid_address_shows_buttons(self):
+        pass
+
+    def test_select_rep_changes_rep(self):
+        pass
+
+    def test_select_metric_changes_metric(self):
+        pass
