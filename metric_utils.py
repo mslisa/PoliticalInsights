@@ -172,9 +172,13 @@ class financials():
             total_from_individuals_ = df1[8][rows]
             total_from_pacs_ = df1[9][rows]
             c_dict[id_] = {'party':party_, 'status':status_, 
-                           'name': name_, 'id':id_, 'total_from_individuals':total_from_individuals_,
-                          'total_from_pacs':total_from_pacs_}
-
+                   'name': name_, 'id':id_, 'total_from_individuals':total_from_individuals_,
+                  'total_from_pacs':total_from_pacs_,
+                  'donor_ratio': round(float(total_from_individuals_+1)/float(total_from_pacs_+1),2),
+                  'explanation': "When conducting their campaigns, representatives accept donations from both private individuals as well as Political Action Committees (PACS), organizations that collect financial contributions from their members and use the funds to aid or hinder candidate campaigns, or legislation. The metric shows the number of individual donor dollars per $1 donated by PACS.The filled circle shows PAC donor dollars versus  individual donor dollars given to your representative's campaign, colored by political party affiliation."
+                  }
+            
+        print c_dict[REP_ID], "\n"
 
         ids = [i for i in c_dict.keys()]
         for ii in ids:
@@ -211,11 +215,11 @@ class financials():
             x_1 = df1[8].max()
             y_1 = slope*(x_1 - x_0) + y_0
             plt.plot([x_0, x_1], [y_0, y_1], linewidth=0.5,c='black') 
-            plt.ylabel("Total ($) From PACS")
-	#plt.figure(figsize=(4,4))
-        #plt.show();
-        #plt.savefig('findata1.png')
-        return plt.figure()
+            plt.ylabel("Total ($) From PACS");
+        #plt.figure(figsize=(4, 4))
+        plt.show();
+        # plt.savefig('findata.png');
+
 
 class twitter_stuff():
     
@@ -234,13 +238,16 @@ class twitter_stuff():
 
         print "Public Perception of ", df_t.loc[df_t['id'] == REP_ID, 'name'].item(), "\t ", str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()), "\n"
         print "*"*75,"\n"
-        print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\t Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\t Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),"\n"
+#         print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\t Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\t Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),"\n"
 
-        print "*"*75,"\n"
+#         print "*"*75,"\n"
+        
+        
         
         topics_list = [
         'Agriculture and Food [127]', 'Animals [52]','Armed Forces and National Security [664]','Arts, Culture, Religion [33]',
         'Civil Rights and Liberties, Minority Issues [111]',
+        'Commerce [155]','Congress [306]','Crime and Law Enforcement [445]','Economics and Public Finance [96]',
         'Education [308]','Emergency Management [103]','Energy [212]',
         'Environmental Protection [195]','Families [44]','Finance and Financial Sector [270]',
         'Foreign Trade and International Finance [55]','Government Operations and Politics [573]',
@@ -310,6 +317,19 @@ class twitter_stuff():
             for key in sorted(topics_dict.iterkeys()):
                 print i," - ", key.title(), ": ", sum(topics_dict[key].values()),"tweet(s)."
                 i += 1
+                
+        #metrics dictionary output
+        tweet_metrics = defaultdict(dict)
+        
+        tweet_metrics[REP_ID] = {'name':str(df_t.loc[df_t['id'] == REP_ID, 'name'].item()),
+                                 'twitter_handle':str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()),
+                                 'total_tweets':df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(),
+                                 'pos_tweets': df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(),
+                                 'neg_tweets': df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),
+                                'topics': list(sorted(topics_dict.iterkeys()))}
+        
+        print "\n", tweet_metrics[REP_ID], "\n"
+        
 
 
         #word cloud portion!
@@ -319,9 +339,20 @@ class twitter_stuff():
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
-        # plt.show();
+        plt.show();
         # plt.savefig('word_cloud.png');
-        return plt.figure()
+    
+class contact():
+    
+    
+    def contact_card(self,json_file,REP_ID):
+        import json
+        
+        with open(json_file) as json_data:
+            d = json.load(json_data)
+
+        print d[REP_ID]
+       
 
 if __name__ == "__main__":
     main()
