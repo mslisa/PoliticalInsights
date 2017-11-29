@@ -23,9 +23,9 @@ class SelectRep(forms.Form):
     
 
 class SelectMetric(forms.Form):
-    METRICS = [('Effectiveness', 'Effectiveness'),
-               ('Bipartisanship', 'Bipartisanship'),
-               ('Contact', 'Contact')]
-    selected_metric = forms.ChoiceField(
-        choices=METRICS,
-        widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'})        )
+    def __init__(self, metrics, *args, **kwargs):
+        super(SelectMetric, self).__init__(*args, **kwargs)
+        self.fields['selected_metric'] = forms.ChoiceField(
+            choices=[(m, m) for m in metrics],
+            widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'})
+            )

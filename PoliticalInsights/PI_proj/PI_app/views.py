@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 # Basic python imports
 import pandas as pd
+import matplotlib
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 # django specific imports
@@ -13,6 +14,8 @@ from django.http import HttpResponse
 from .models import Effectiveness
 from .forms import UserAddress, SelectRep, SelectMetric
 import api_utils, metric_utils
+#fig_dict = {‘fig’: fig_object, ‘fig_explanation’: “blah blah about fig_object”}
+#quick_stat_dict = {‘stat1’: {‘stat’:big_number_stat, ‘stat_explanation’: “blah blah about big_number_stat”}, ’stat2’: …}
 
 def get_reps(user_address):
     # retrieve representatives for given address
@@ -24,6 +27,7 @@ def get_reps(user_address):
     #         }
     #      }
     #   }
+
     g = api_utils.Google()
     my_reps = {}
 
@@ -35,7 +39,7 @@ def get_reps(user_address):
         else:
             return None
 
-    #TODO validate address
+    # get google response
     my_reps_g = g.ids_from_address(user_address)
        
     for chamber, member_list in my_reps_g.items():
@@ -47,15 +51,6 @@ def get_reps(user_address):
                                   }
 
     return my_reps
-
-def fig_response(fig):
-    canvas = FigureCanvas(fig)
-    fig_response = HttpResponse(content_type = 'image/png')
-    canvas.print_png(fig_response)
-    return fig_response
-    #fig_dict = {‘fig’: fig_object, ‘fig_explanation’: “blah blah about fig_object”}
-    #quick_stat_dict = {‘stat1’: {‘stat’:big_number_stat, ‘stat_explanation’: “blah blah about big_number_stat”}, ’stat2’: …} # maybe have this as an ordered dict?
-
 
 def home(request):
 
@@ -69,6 +64,9 @@ def home(request):
     if request.method == 'POST':
 
         # check that address is valid
+        if len(request.POST['user_address']) < 5:
+            rendered_data['error_message'] = 'Address not found. Please try again.'
+            return render(request, 'home.html', rendered_data)
         try:
             my_reps = get_reps(request.POST['user_address'])
         except:
@@ -88,45 +86,120 @@ def home(request):
         rendered_data['posted_data']=request.POST
 
         # used POSTed metric otherwise initialize to Contact
+        metrics = ['Contact', 'Effectiveness', 'Bipartisanship', 'Financial', 'Social']
         if 'selected_metric' in request.POST:
             metric = request.POST['selected_metric']
         else:
             metric = 'Contact'
         rendered_data['metric'] = metric
-        rendered_data['selected_metric_form'] = SelectMetric(initial={'selected_metric': metric})
+        rendered_data['selected_metric_form'] = SelectMetric(metrics, initial={'selected_metric': metric})
         
-        # get graphs and figures to display dependent upon metric        
+        # get metric text to display dependent upon metric (figure comes from metric_graph function)     
         if metric == 'Contact':
-            rendered_data['text_stat'] = {"msg": "You've selected Contact"}
+            contact = metric_utils.contact()
+            contact_dict = contact.contact_card('data/contact_file.json', i_rep)
+            rendered_data['quick_stat_dict'] = contact_dict
             
         elif metric == 'Effectiveness':
             df = pd.read_csv('data/effectiveness.csv')
-            e = metric_utils.effectiveness()
-            fig = e.generate_plot(df, i_rep)     # return plt.figure()
-            rendered_data['fig'] = fig_response(fig)
-            rendered_data['text_stat'] = e.key_stats(df, i_rep)   # return dictionary
+            metric_obj = metric_utils.effectiveness()
+
+            # figure
+            fig_dict = metric_obj.generate_plot(df, i_rep)     # return fig_dict (see structure at top)
+            rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            
+            #quick statistics (like big number graphs)
+            quick_stat_dict = metric_obj.key_stats(df, i_rep)   # return quick_stat_dict (see structure at top)
+            rendered_data['quick_stat_dict'] = quick_stat_dict
             
         elif metric == 'Bipartisanship':
             df = pd.read_csv('data/effectiveness.csv')
-            b = metric_utils.bipartisanship()
-            fig = b.generate_plot(df, i_rep)     # return plt.figure()
-            rendered_data['fig'] = fig_response(fig)
-            rendered_data['text_stat'] = b.key_stats(df, i_rep)   # return dictionary
+            metric_obj = metric_utils.bipartisanship()
+
+            # figure
+            fig_dict = metric_obj.generate_plot(df, i_rep)     # return fig_dict (see structure at top)
+            rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            
+            #quick statistics (like big number graphs)
+            quick_stat_dict = metric_obj.key_stats(df, i_rep)   # return quick_stat_dict (see structure at top)
+            rendered_data['quick_stat_dict'] = quick_stat_dict
             
         elif metric == 'Financial':
-            df = pd.read_csv("findata/fincampaign.csv",header=None)
-            f = metric_utils.financials()
-            fig = f.fin_plot(df, i_rep)      # return plt.figure()
-            rendered_data['fig'] = fig_response(fig)
+            df = pd.read_csv("data/fincampaign_w_twitter.csv", header=None)
+            financials = metric_utils.financials()
+            metric_obj = financials.fin_plot(df, i_rep) # return dict{'fig_dict', 'quick_stat_dict'}
+
+            # figure
+            fig_dict = metric_obj['fig_dict']     # return fig_dict (see structure at top)
+            rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            
+            #quick statistics (like big number graphs)
+            quick_stat_dict = metric_obj['quick_stat_dict']   # return quick_stat_dict (see structure at top)
+            rendered_data['quick_stat_dict'] = quick_stat_dict
             
         elif metric == 'Social':
             df = pd.read_csv('findata/final_twitter_df.csv')
-            t = metric_utils.twitter_stuff()
-            fig = t.twitter(df, i_rep)      # return plt.figure()
-            rendered_data['fig'] = fig_response(fig)  
-                    
+            twitter = metric_utils.twitter_stuff()
+            metric_obj = twitter.twitter(df, i_rep) # return dict{'fig_dict', 'quick_stat_dict'}
 
+            # figure
+            fig_dict = metric_obj['fig_dict']     # return fig_dict (see structure at top)
+            rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            
+            #quick statistics (like big number graphs)
+            quick_stat_dict = metric_obj['quick_stat_dict']   # return quick_stat_dict (see structure at top)
+            rendered_data['quick_stat_dict'] = quick_stat_dict
+                    
     return render(request, 'home.html', rendered_data)
+
+def metric_graph(request):
+    metric = request.GET['metric']
+    rep_id = request.GET['rep_id']
+
+    if metric == 'Contact':
+        pass
+        
+    elif metric == 'Effectiveness':
+        df = pd.read_csv('data/effectiveness.csv')
+        metric_obj = metric_utils.effectiveness()
+
+        # figure
+        fig_dict = metric_obj.generate_plot(df, rep_id)     # return fig_dict (see structure at top)
+        fig = fig_dict['fig']
+        
+    elif metric == 'Bipartisanship':
+        df = pd.read_csv('data/effectiveness.csv')
+        metric_obj = metric_utils.bipartisanship()
+
+        # figure
+        fig_dict = metric_obj.generate_plot(df, rep_id)     # return fig_dict (see structure at top)
+        fig = fig_dict['fig']
+        
+    elif metric == 'Financial':
+        df = pd.read_csv("data/fincampaign_w_twitter.csv", header=None)
+        financials = metric_utils.financials()
+        metric_obj = financials.fin_plot(df, rep_id) # return dict{'fig_dict', 'quick_stat_dict'}
+
+        # figure
+        fig_dict = metric_obj['fig_dict']     # return fig_dict (see structure at top)
+        fig = fig_dict['fig']
+        
+    elif metric == 'Social':
+        df = pd.read_csv('findata/final_twitter_df.csv')
+        twitter = metric_utils.twitter_stuff()
+        metric_obj = twitter.twitter(df, rep_id) # return dict{'fig_dict', 'quick_stat_dict'}
+
+        # figure
+        fig_dict = metric_obj['fig_dict']     # return fig_dict (see structure at top)
+        fig = fig_dict['fig']
+
+
+    # process figure for url pass
+    canvas = FigureCanvas(fig)
+    fig_response = HttpResponse(content_type = 'image/png')
+    canvas.print_png(fig_response)
+    return fig_response
+
 def chart_get_function(request):
     import random
     import django
@@ -200,43 +273,3 @@ def dump_request(request):
         r.write("{}={}\r\n".format(k,v))
 
     return r
-
-# http://www.extragravity.com/blog/2014/01/04/matplotlib-django/
-# import sys
-# from django.http import HttpResponse
-# import matplotlib as mpl
-# mpl.use('Agg') # Required to redirect locally
-# import matplotlib.pyplot as plt
-# import numpy as np
-# from numpy.random import rand
-# try:
-#     # Python 2
-#     import cStringIO
-# except ImportError:
-#     # Python 3
-#     import io
-# def get_image(request):
-#    """
-#    This is an example script from the Matplotlib website, just to show 
-#    a working sample >>>
-#    """
-#    N = 50
-#    x = np.random.rand(N)
-#    y = np.random.rand(N)
-#    colors = np.random.rand(N)
-#    area = np.pi * (15 * np.random.rand(N))**2 # 0 to 15 point radiuses
-#    plt.scatter(x, y, s=area, c=colors, alpha=0.5)
-#    """
-#    Now the redirect into the cStringIO or BytesIO object >>>
-#    """
-#    if cStringIO in sys.modules:
-#       f = cStringIO.StringIO()   # Python 2
-#    else:
-#       f = io.BytesIO()           # Python 3
-#    plt.savefig(f, format="png", facecolor=(0.95,0.95,0.95))
-#    plt.clf()
-#    """
-#    Add the contents of the StringIO or BytesIO object to the response, matching the
-#    mime type with the plot format (in this case, PNG) and return >>>
-#    """
-#    return HttpResponse(f.getvalue(), content_type="image/png")

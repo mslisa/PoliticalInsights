@@ -38,20 +38,16 @@
 
     <!-- metrics stuff -->
     <div class="row"><!-- can I make an outline? -->
-        
       <!-- left side graphic plus explanation -->
       <div class="column">
-  
         <!-- graphic -->
         <div class="row">
-          <img src="/charts/?metric={{ metric }}&amp;rep_id={{ i_rep }}"> <!--  -->
+          <img src="/metrics_graph/?metric={{ metric }}&amp;rep_id={{ i_rep }}">
         </div>
-  
         <!-- explanation -->
         <div class="row">
-          {{ fig_dict.fig_explanation }}
+          {{ fig_explanation }}
         </div>
-  
       </div>
   
       <!-- right side big number charts-->
