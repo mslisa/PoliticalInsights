@@ -3,6 +3,7 @@ import numpy as np
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
+from collections import OrderedDict
 
 class effectiveness():
 
@@ -57,8 +58,12 @@ class effectiveness():
                 plt.title('Effectiveness Rankings')
                 
                 plt.tight_layout()
+                fig_exp = "Effectiveness is an indication of how successful members are at writing bills that go on to become law. \
+Being ranked #1 would mean that the member sponsors or cosponsors bills that make it further along in the legislative \
+process, on average, than the rest of the members in his or her caucus. This figure shows the member's effectiveness both \
+as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
                 
-                return plt.figure()
+                return {'fig': plt.figure(), 'fig_explanation': fig_exp}
                 
     def key_stats(self, df, mid):
         if mid in list(df.id):
@@ -80,10 +85,13 @@ class effectiveness():
             s_count_percentile = len(temp_df[temp_df.sponsor_count < s_count]) * 1.0 / out_of
             c_count_percentile = len(temp_df[temp_df.cosponsor_count < c_count]) * 1.0 / out_of
             
-            return {'name': name, 'sponsor_effectiveness_rank': s_rank, 'cosponsor_effectiveness_rank': c_rank, 'out_of': out_of,
-                    'sponsor_count': s_count, 'sponsor_count_percentile': s_count_percentile,
-                    'cosponsor_count': c_count, 'cosponsor_count_percentile': c_count_percentile}
+            out_dict = OrderedDict()
+            out_dict['stat1'] = {'stat': '%s' %s_count, 'stat_explanation': 'Bills sponsored'}
+            out_dict['stat2'] = {'stat': '%s out of %s' %(s_rank, out_of), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
+            out_dict['stat3'] = {'stat': '%s' %c_count, 'stat_explanation': 'Bills cosponsored'}
+            out_dict['stat4'] = {'stat': '%s out of %s' %(c_rank, out_of), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
             
+            return out_dict
             
 
 class bipartisanship():
@@ -133,7 +141,12 @@ class bipartisanship():
                 
                 plt.tight_layout()
                 
-                return plt.figure()
+                fig_exp = "This Bipartisanship figure indicates the degree to which a member sponsors legislation that garners \
+cosponsorship support from members of the opposite party. The blue and red sections show the distribution for democrats and republicans, respectively. \
+The solid line shows where this particular member falls in their party's distribution. For this analysis, a bill is considered to have bipartisan \
+support if at least 25% of its cosponsors were members from a party different from the sponsor's party."
+                
+                return {'fig': plt.figure(), 'fig_explanation': fig_exp}
                 
     def key_stats(self, df, mid):
         if mid in list(df.id):
@@ -150,7 +163,11 @@ class bipartisanship():
             out_of = len(temp_df)
             bi_pct_percentile = len(temp_df[temp_df.bi_pct < bi_pct]) * 1.0 / out_of
             
-            return {'name': name, 'bipartisan_percentage': bi_pct, 'out_of': out_of, 'bipartisan_percentile': bi_pct_percentile}
+            out_dict = OrderedDict()
+            out_dict['stat1'] = {'stat': '%s%%' %round(bi_pct*100), 'stat_explanation': 'Percentage of sponsored bills that gained bipartisan cosponsorship'}
+            out_dict['stat2'] = {'stat': '%s%%' %round(bi_pct_percentile*100), 'stat_explanation': 'Percentage of own party out-performed in this metric'}
+            
+            return out_dict
         
 class financials():
     
@@ -172,9 +189,13 @@ class financials():
             total_from_individuals_ = df1[8][rows]
             total_from_pacs_ = df1[9][rows]
             c_dict[id_] = {'party':party_, 'status':status_, 
-                           'name': name_, 'id':id_, 'total_from_individuals':total_from_individuals_,
-                          'total_from_pacs':total_from_pacs_}
-
+                   'name': name_, 'id':id_, 'total_from_individuals':total_from_individuals_,
+                  'total_from_pacs':total_from_pacs_,
+                  'donor_ratio': round(float(total_from_individuals_+1)/float(total_from_pacs_+1),2),
+                  'explanation': "When conducting their campaigns, representatives accept donations from both private individuals as well as Political Action Committees (PACS), organizations that collect financial contributions from their members and use the funds to aid or hinder candidate campaigns, or legislation. The metric shows the number of individual donor dollars per $1 donated by PACS.The filled circle shows PAC donor dollars versus  individual donor dollars given to your representative's campaign, colored by political party affiliation."
+                  }
+            
+        print c_dict[REP_ID], "\n"
 
         ids = [i for i in c_dict.keys()]
         for ii in ids:
@@ -211,11 +232,11 @@ class financials():
             x_1 = df1[8].max()
             y_1 = slope*(x_1 - x_0) + y_0
             plt.plot([x_0, x_1], [y_0, y_1], linewidth=0.5,c='black') 
-            plt.ylabel("Total ($) From PACS")
-	#plt.figure(figsize=(4,4))
-        #plt.show();
-        #plt.savefig('findata1.png')
-        return plt.figure()
+            plt.ylabel("Total ($) From PACS");
+        #plt.figure(figsize=(4, 4))
+        plt.show();
+        # plt.savefig('findata.png');
+
 
 class twitter_stuff():
     
@@ -234,13 +255,16 @@ class twitter_stuff():
 
         print "Public Perception of ", df_t.loc[df_t['id'] == REP_ID, 'name'].item(), "\t ", str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()), "\n"
         print "*"*75,"\n"
-        print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\t Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\t Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),"\n"
+#         print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\t Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\t Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),"\n"
 
-        print "*"*75,"\n"
+#         print "*"*75,"\n"
+        
+        
         
         topics_list = [
         'Agriculture and Food [127]', 'Animals [52]','Armed Forces and National Security [664]','Arts, Culture, Religion [33]',
         'Civil Rights and Liberties, Minority Issues [111]',
+        'Commerce [155]','Congress [306]','Crime and Law Enforcement [445]','Economics and Public Finance [96]',
         'Education [308]','Emergency Management [103]','Energy [212]',
         'Environmental Protection [195]','Families [44]','Finance and Financial Sector [270]',
         'Foreign Trade and International Finance [55]','Government Operations and Politics [573]',
@@ -310,6 +334,19 @@ class twitter_stuff():
             for key in sorted(topics_dict.iterkeys()):
                 print i," - ", key.title(), ": ", sum(topics_dict[key].values()),"tweet(s)."
                 i += 1
+                
+        #metrics dictionary output
+        tweet_metrics = defaultdict(dict)
+        
+        tweet_metrics[REP_ID] = {'name':str(df_t.loc[df_t['id'] == REP_ID, 'name'].item()),
+                                 'twitter_handle':str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()),
+                                 'total_tweets':df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(),
+                                 'pos_tweets': df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(),
+                                 'neg_tweets': df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),
+                                'topics': list(sorted(topics_dict.iterkeys()))}
+        
+        print "\n", tweet_metrics[REP_ID], "\n"
+        
 
 
         #word cloud portion!
@@ -319,9 +356,20 @@ class twitter_stuff():
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
-        # plt.show();
+        plt.show();
         # plt.savefig('word_cloud.png');
-        return plt.figure()
+    
+class contact():
+    
+    
+    def contact_card(self,json_file,REP_ID):
+        import json
+        
+        with open(json_file) as json_data:
+            d = json.load(json_data)
+
+        print d[REP_ID]
+       
 
 if __name__ == "__main__":
     main()
