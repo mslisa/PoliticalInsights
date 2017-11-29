@@ -195,7 +195,7 @@ class financials():
                   'explanation': "When conducting their campaigns, representatives accept donations from both private individuals as well as Political Action Committees (PACS), organizations that collect financial contributions from their members and use the funds to aid or hinder candidate campaigns, or legislation. The metric shows the number of individual donor dollars per $1 donated by PACS.The filled circle shows PAC donor dollars versus  individual donor dollars given to your representative's campaign, colored by political party affiliation."
                   }
             
-        print c_dict[REP_ID], "\n"
+        # print c_dict[REP_ID], "\n"
 
         ids = [i for i in c_dict.keys()]
         for ii in ids:
@@ -234,8 +234,14 @@ class financials():
             plt.plot([x_0, x_1], [y_0, y_1], linewidth=0.5,c='black') 
             plt.ylabel("Total ($) From PACS");
         #plt.figure(figsize=(4, 4))
-        plt.show();
+        #plt.show();
         # plt.savefig('findata.png');
+
+        fig_dict = {'fig': plt.figure(), 'fig_explanation': c_dict[REP_ID]['explanation']}
+        quick_stat_dict = {'total_from_individuals': {'stat':total_from_individuals_, 'stat_explanation': "Total from individuals"},
+                           'total_from_pacs': {'stat':total_from_pacs_, 'stat_explanation': "Total from PACS"},
+                           'donor_ratio': {'stat':round(float(total_from_individuals_+1)/float(total_from_pacs_+1),2), 'stat_explanation': "Donor ratio"}}
+        return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
 
 
 class twitter_stuff():
@@ -253,8 +259,8 @@ class twitter_stuff():
         
         #Converting rep_id to name for twitter query
 
-        print "Public Perception of ", df_t.loc[df_t['id'] == REP_ID, 'name'].item(), "\t ", str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()), "\n"
-        print "*"*75,"\n"
+        #print "Public Perception of ", df_t.loc[df_t['id'] == REP_ID, 'name'].item(), "\t ", str(df_t.loc[df_t['id'] == REP_ID, 'twitter_handle'].item()), "\n"
+        #print "*"*75,"\n"
 #         print "Total Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), "\t Positive Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), "\t Negative Tweets: ", df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),"\n"
 
 #         print "*"*75,"\n"
@@ -325,15 +331,13 @@ class twitter_stuff():
 
         ##Topic Summary
 
-        if not topics_dict:
+        ''' if not topics_dict:
             print ("\nTrending Topics: Variety \n")
             print ("(Twitter data on this representative is limited or non existent.)")
         else:
             print ("\nTrending Topics: \n")
-            i = 1
-            for key in sorted(topics_dict.iterkeys()):
-                print i," - ", key.title(), ": ", sum(topics_dict[key].values()),"tweet(s)."
-                i += 1
+            for i, key in enumerate(sorted(topics_dict, key=topics_dict.get, reverse=True)):
+                print i," - ", key.title(), ": ", sum(topics_dict[key].values()),"tweet(s)." '''
                 
         #metrics dictionary output
         tweet_metrics = defaultdict(dict)
@@ -345,7 +349,7 @@ class twitter_stuff():
                                  'neg_tweets': df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(),
                                 'topics': list(sorted(topics_dict.iterkeys()))}
         
-        print "\n", tweet_metrics[REP_ID], "\n"
+        #print "\n", tweet_metrics[REP_ID], "\n"
         
 
 
@@ -356,8 +360,16 @@ class twitter_stuff():
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
-        plt.show();
+        #plt.show()
         # plt.savefig('word_cloud.png');
+
+        fig_dict = {'fig': plt.figure(), 'fig_explanation': c_dict[REP_ID]['explanation']}
+        quick_stat_dict = {'total_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), 'stat_explanation': "Total tweet count"},
+                           'pos_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), 'stat_explanation': "Positive tweet count"},
+                           'neg_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), 'stat_explanation': "Negative tweet count"},
+                           'neg_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), 'stat_explanation': "Negative tweet count"},
+                           'topics': {'stat':", ".join(sorted(topics_dict, key=topics_dict.get, reverse=True)[5]), 'stat_explanation': "Top five topics"}}
+        return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
     
 class contact():
     
@@ -368,7 +380,11 @@ class contact():
         with open(json_file) as json_data:
             d = json.load(json_data)
 
-        print d[REP_ID]
+        quick_stat_dict = {}
+        for contact_type, contact_path in d[REP_ID].items():
+            quick_stat_dict[contact_type] = {'stat': contact_type, 'stat_explanation': contact_path}
+
+        return quick_stat_dict
        
 
 if __name__ == "__main__":
