@@ -17,10 +17,9 @@ class SelectRep(forms.Form):
         super(SelectRep, self).__init__(*args, **kwargs)
         self.fields['selected_rep'] = forms.ChoiceField(
             choices=[(rep_id, rep_key) for rep_id, rep_key in my_reps.items()],
-            widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();'})
+            widget=forms.RadioSelect(attrs={'onchange': 'this.form.submit();', 
+                                            'id': 'value'})
             )
-
-    
 
 class SelectMetric(forms.Form):
     def __init__(self, metrics, *args, **kwargs):

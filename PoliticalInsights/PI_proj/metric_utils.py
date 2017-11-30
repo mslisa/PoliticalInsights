@@ -381,6 +381,14 @@ class contact():
             d = json.load(json_data)
 
         quick_stat_dict = {}
+        # quick_stat_dict['website'] = {'stat': 'Website', 'stat_explanation': '<a href={}>{}</a>'.format(d[REP_ID]['Website'], d[REP_ID]['Website'])}
+        # quick_stat_dict['Fax'] = {'stat': 'Fax', 'stat_explanation': d[REP_ID]['Fax']}
+        # quick_stat_dict['Office'] = {'stat': 'Office', 'stat_explanation': d[REP_ID]['Office']}
+        # quick_stat_dict['Contact Form'] = {'stat': 'Contact Form', 'stat_explanation': d[REP_ID]['Contact Form']}
+        # quick_stat_dict['Phone'] = {'stat': 'Phone', 'stat_explanation': d[REP_ID]['Phone']}
+        # quick_stat_dict['Facebook'] = {'stat': 'Facebook', 'stat_explanation': '<a href={}>{}</a>'.format(d[REP_ID]['Facebook'], d[REP_ID]['Facebook'])}
+        # quick_stat_dict['Twitter'] = {'stat': 'Twitter', 'stat_explanation': '<a href={}>{}</a>'.format(d[REP_ID]['Twitter'], d[REP_ID]['Twitter'])}
+
         for contact_type, contact_path in d[REP_ID].items():
             quick_stat_dict[contact_type] = {'stat': contact_type, 'stat_explanation': contact_path}
 

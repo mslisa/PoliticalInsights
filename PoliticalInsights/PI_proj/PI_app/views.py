@@ -80,6 +80,8 @@ def home(request):
         else:
             i_rep = my_reps.keys()[0]
         rendered_data['i_rep'] = i_rep
+        rendered_data['i_rep_name'] = my_reps[i_rep]['name']
+        # TODO: add in party affiliation
         rendered_data['selected_rep_form'] = SelectRep(my_reps, initial={'selected_rep': i_rep})
 
         # TODO delete this and make sure it's out of html. Dev only.

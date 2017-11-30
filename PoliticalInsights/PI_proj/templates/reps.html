@@ -3,7 +3,7 @@
 {% block content %}
   <div class="container-fluid">
 
-  <!-- row of reps -->	<!-- TODO: activate button of current page, https://stackoverflow.com/questions/4626431/highlight-the-navigation-menu-for-the-current-page -->
+  <!-- row of reps -->
   {% block rep_row %}
     <div class="row">
       <h2>Your Representatives</h2>
@@ -12,8 +12,8 @@
     <div class="row">
       <div class="btn-group" data-toggle="buttons">
         {% for rep in selected_rep_form.selected_rep %}
-          {% if metric == rep.choice_label %}
-            <label for="{{ rep.id_for_label }}" class="btn btn-link active" >
+          {% if i_rep_name == rep.choice_label.name %}
+            <label for="{{ rep.id_for_label }}" class="btn btn-primary" >
           {% else %}
             <label for="{{ rep.id_for_label }}" class="btn btn-link" >
           {% endif %}
@@ -33,9 +33,9 @@
       <div class="btn-group" data-toggle="buttons">
         {% for selected_metric in selected_metric_form.selected_metric %}
           {% if metric == selected_metric.choice_label %}
-            <label for="{{ selected_metric.id_for_label }}" class="btn btn-primary active" >
-          {% else %}
             <label for="{{ selected_metric.id_for_label }}" class="btn btn-primary" >
+          {% else %}
+            <label for="{{ selected_metric.id_for_label }}" class="btn btn-link" >
           {% endif %}
             {{ selected_metric.choice_label }}
             <span class="radio">{{ selected_metric.tag }}</span>
@@ -47,7 +47,7 @@
     <!-- metrics stuff -->
     <div class="row border" >
       <!-- left side graphic plus explanation -->
-      <div class="column">
+      <div class="col-md-auto">
  
         <!-- graphic -->
         <img src="/metrics_graph/?metric={{ metric }}&amp;rep_id={{ i_rep }}">
@@ -61,7 +61,7 @@
  
       <!-- right side big number charts-->
       <div class="column">
-        <table class="table table-hover">
+        <table class="table">
           <tbody>
             {% for quick_stat in quick_stat_dict.values %}
               <tr>
