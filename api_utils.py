@@ -1,6 +1,6 @@
 import requests
 import re
-
+from collections import OrderedDict
 
 class ProPublica():
 
@@ -42,6 +42,19 @@ class ProPublica():
         response = requests.get(url, headers=header)
         data = response.json()
         return data
+        
+    def get_recent_bills(self, member_id):
+        # Simple function to get the (up to) 20 most recent bills sponsored
+        # by a given member
+        url = "https://api.propublica.org/congress/v1/members/{member-id}/bills/introduced.json".replace("{member-id}", member_id)
+        header = {"X-API-Key": self.finance_api_key}
+        response = requests.get(url, headers=header)
+        data = response.json()
+        bills = data['results'][0]['bills']
+        out_dict = OrderedDict()
+        for i in range(len(bills)):
+            out_dict['bill%s' %i] = {'title': bills[i]['title'], 'url': bills[i]['govtrack_url']}
+        return out_dict
         
 class Google():
 
