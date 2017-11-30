@@ -1,4 +1,7 @@
-$('.btn').click(function(e) {
-    e.preventDefault();
-    $(this).addClass('active');
-})
+html  {
+    font-family: 'Libre Baskerville', serif;
+}
+
+body {
+    background-image: url(../img/polka-dots.png);
+}

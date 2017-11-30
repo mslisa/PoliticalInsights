@@ -138,7 +138,7 @@ def home(request):
             rendered_data['quick_stat_dict'] = quick_stat_dict
             
         elif metric == 'Social':
-            df = pd.read_csv('findata/final_twitter_df.csv')
+            df = pd.read_csv('data/final_twitter_df.csv')
             twitter = metric_utils.twitter_stuff()
             metric_obj = twitter.twitter(df, i_rep) # return dict{'fig_dict', 'quick_stat_dict'}
 
@@ -157,7 +157,8 @@ def metric_graph(request):
     rep_id = request.GET['rep_id']
 
     if metric == 'Contact':
-        pass
+        # if contact, don't return a figure
+        return HttpResponse("")
         
     elif metric == 'Effectiveness':
         df = pd.read_csv('data/effectiveness.csv')
@@ -185,7 +186,7 @@ def metric_graph(request):
         fig = fig_dict['fig']
         
     elif metric == 'Social':
-        df = pd.read_csv('findata/final_twitter_df.csv')
+        df = pd.read_csv('data/final_twitter_df.csv')
         twitter = metric_utils.twitter_stuff()
         metric_obj = twitter.twitter(df, rep_id) # return dict{'fig_dict', 'quick_stat_dict'}
 
@@ -227,9 +228,13 @@ def chart_get_function(request):
 
     fig.autofmt_xdate()
     canvas=FigureCanvas(fig)
-    response=django.http.HttpResponse(content_type='image/png')
+    response=HttpResponse(content_type='image/png')
     canvas.print_png(response)
     return response
+
+def about_view(request):
+    HttpResponse("testing about view")
+    return render(request, 'index.html')
 
 # file charts.py
 def simple_chart(request):
