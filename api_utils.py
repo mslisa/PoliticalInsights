@@ -53,7 +53,7 @@ class ProPublica():
         bills = data['results'][0]['bills']
         out_dict = OrderedDict()
         for i in range(len(bills)):
-            out_dict['bill%s' %i] = {'title': bills[i]['title'], 'url': bills[i]['govtrack_url']}
+            out_dict['bill%s' %i] = {'stat': bills[i]['title'], 'stat_explanation': bills[i]['govtrack_url']}
         return out_dict
         
 class Google():
