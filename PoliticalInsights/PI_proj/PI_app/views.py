@@ -63,6 +63,8 @@ def home(request):
     # if POST request (user entered information) then process form data
     if request.method == 'POST':
 
+        #### USER ADDRESS ###
+
         # check that address is valid
         if len(request.POST['user_address']) < 5:
             rendered_data['error_message'] = 'Address not found. Please try again.'
@@ -73,6 +75,8 @@ def home(request):
             rendered_data['error_message'] = 'Address not found. Please try again.'
             return render(request, 'home.html', rendered_data)
         
+        #### REPRESENTATIVES ###
+
         # used POSTed rep otherwise initialize to any rep
         rendered_data['my_reps'] = my_reps
         if 'selected_rep' in request.POST:
@@ -86,6 +90,8 @@ def home(request):
 
         # TODO delete this and make sure it's out of html. Dev only.
         rendered_data['posted_data']=request.POST
+
+        #### METRICS ###
 
         # used POSTed metric otherwise initialize to Contact
         metrics = ['Contact', 'Effectiveness', 'Bipartisanship', 'Financial', 'Social']
@@ -154,7 +160,7 @@ def home(request):
                     
     return render(request, 'home.html', rendered_data)
 
-def metric_graph(request):
+def metrics_graph(request):
     metric = request.GET['metric']
     rep_id = request.GET['rep_id']
 
@@ -203,7 +209,7 @@ def metric_graph(request):
     canvas.print_png(fig_response)
     return fig_response
 
-def chart_get_function(request):
+def charts_graph(request):
     import random
     import django
     import datetime
@@ -212,7 +218,7 @@ def chart_get_function(request):
     from matplotlib.figure import Figure
     from matplotlib.dates import DateFormatter
 
-    fig=Figure()
+    fig=Figure(figsize=(4,4))
     ax=fig.add_subplot(111)
     x=[]
     y=[]
@@ -226,7 +232,7 @@ def chart_get_function(request):
     ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
 
     ax.annotate('metric: {}'.format(request.GET['metric']), xy=(x[0], y[0]), xytext=(x[0], y[0]))
-    ax.annotate('metric: {}'.format(request.GET['rep_id']), xy=(x[1], y[1]), xytext=(x[1], y[1]))
+    ax.annotate('rep: {}'.format(request.GET['rep_id']), xy=(x[1], y[1]), xytext=(x[1], y[1]))
 
     fig.autofmt_xdate()
     canvas=FigureCanvas(fig)

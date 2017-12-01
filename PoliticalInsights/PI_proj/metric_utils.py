@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from collections import OrderedDict
 
+FIG_SIZE = (4,4)
+
 class effectiveness():
 
     def generate_plot(self, df, mid):
@@ -43,7 +45,7 @@ class effectiveness():
                 '''
                 
                 # Build the plots
-                plt.figure(figsize=(4, 4))
+                plt.figure(figsize=FIG_SIZE)
                 
                 #plt.subplot(221)
                 plt.scatter(temp_df.sponsor_rank, temp_df.cosponsor_rank, color=colors, s=temp_df['size'])
@@ -119,7 +121,7 @@ class bipartisanship():
                 
                 # Build the plots
                 
-                fig = plt.figure(figsize=(6,4))
+                fig = plt.figure(figsize=FIG_SIZE)
                 ax = fig.add_subplot(1,1,1)
                 
                 #plt.figure(figsize=(4, 4))
@@ -217,6 +219,7 @@ class financials():
 
             plt.title(str(c_dict[REP_ID]['name']) + " CAMPAIGN CONTRIBUTIONS")
             plt.xlabel("Total ($) From Individuals")
+            plt.figzie=FIG_SIZE
             
             plt.ticklabel_format(style='plain', axis='y')
             plt.ticklabel_format(style='plain', axis='x')
@@ -357,7 +360,7 @@ class twitter_stuff():
 
         wordcloud = WordCloud().generate(text)
         wordcloud = WordCloud(max_font_size=50).generate(text)
-        plt.figure()
+        plt.figure(figsize=FIG_SIZE)
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
         #plt.show()

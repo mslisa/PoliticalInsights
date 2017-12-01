@@ -1,4 +1,11 @@
-body {
-    background-image: url(../img/polka-dots.png);
+html{
     font-family: 'Libre Baskerville', serif;
+}
+
+body {
+    background-image: url(../img/crossword.png);
+}
+
+table {
+    word-wrap:break-word;
 }
