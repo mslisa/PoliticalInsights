@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<!--
+	Prism by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Political Insights</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner split">
+					<section>
+						<h2>UNDER CONSTRUCTION</h2><br>
+                        <h2>Welcome to Political Insights, a place to learn about your elected representitaves</h2>
+					</section>
+					<section>
+						<p>A final capstone project for UC Berkeley's Master of Information and Data Science program</p>
+                        <p>Created by Lisa Barcelo, Lisa Minas, and Scott Marler</p>
+						<ul class="actions">
+							<li><a target="_blank" href="https://datascience.berkeley.edu/" class="button special">datascience@berkeley</a></li>
+						</ul>
+					</section>
+				</div>
+			</section>
+
+		<!-- One -->
+			<section id="one" class="wrapper">
+				<div class="inner split">
+					<section>
+						<h2>Are your federal elected representatives doing their job well?</h2>
+						<p>Recent reelection rates for incumbent candidates in both the US Senate and House of Representatives are over 90%. Incumbent candidates have several advantages, such as fundraising potential, name recognition, and representing the status quo. During election cycles, we learn about candidates through campaign ads and news. However, once the election is over, it's difficult to follow up and see if they're living up to expectations.</p>
+                        <p>Incumbency should not be a golden ticket to reelection; and the lack of an upcoming election should not grant freedom from scrutiny. By combining data from public sources and producing easy-to-use and easy-to-understand visualizations and summaries, we provide constituents with information to help make informed decisions about whether or not the status quo is worth maintaining.</p>
+                        
+					</section>
+				 	<section>
+                        <br><br><br>
+						<ul class="checklist">
+							<li>Is my representative an effective legislator?</li>
+							<li>Do her bills tend to garner bipartisan support?</li>
+							<li>Do his campaign funds come from individual donors or PACs?</li>
+							<li>Does her Twitter activity reveal anything interesting?</li>
+							<li>What bills has he sponsored recently?</li>
+                            <li>How can I get in touch?</li>
+						</ul>
+					</section>
+				</div>
+			</section>
+
+		<!-- Two -->
+			<section id="two" class="wrapper style2 alt">
+				<div class="inner">
+                    <h2><center>Data Sources</center></h2>
+					<div class="spotlight">
+						<div class="image">
+							<img src="http://dryicons.com/uploads/icon/svg/9870/16307898-bc74-4e7a-a85d-e6d832e86815.svg" alt="" />
+						</div>
+						<div class="content">
+							<h3>Google Civic Information API</h3>
+							<p>We leverage Google's API to identify an individual's representatives based on their address.</p>
+                            <p>Each address yields one House representative and both Senators
+							<ul class="actions">
+								<li><a target="_blank" href="https://developers.google.com/civic-information/" class="button alt">API Info</a></li>
+							</ul>
+						</div>
+					</div>
+                    <div class="spotlight">
+						<div class="image">
+							<img src="http://dryicons.com/uploads/icon/preview/6958/large_1x_database.png" alt=""/>
+						</div>
+						<div class="content">
+							<h3>ProPublica Bulk Data</h3>
+							<p>The majority of the data we process comes from this bulk datastore. It contains a great deal of information about every bill in recent history. We process this information offline in batches to prevent unnecessarily slow response times for our tool.</p>
+							<ul class="actions">
+								<li><a target="_blank" href="https://www.propublica.org/datastore/dataset/congressional-data-bulk-legislation-bills" class="button alt">Access the Data</a></li>
+							</ul>
+						</div>
+					</div>
+                    <div class="spotlight">
+						<div class="image">
+							<img src="http://dryicons.com/uploads/icon/svg/6284/f355f54a-f9e3-414f-8abf-3707eb601e29.svg" alt="" />
+						</div>
+						<div class="content">
+							<h3>ProPublica Congress API</h3>
+							<p>We utilize ProPublica's Congress API to get up-to-date information about the Senate and House of Representatives, including member lists and recent information about actions taken on bills.</p>
+							<ul class="actions">
+								<li><a target="_blank" href="https://projects.propublica.org/api-docs/congress-api/" class="button alt">API Info</a></li>
+							</ul>
+						</div>
+					</div>
+                    <div class="spotlight">
+						<div class="image">
+							<img src="http://dryicons.com/uploads/icon/svg/8489/45200a04-907f-4e95-88a6-06b8d548c440.svg" alt="" />
+						</div>
+						<div class="content">
+							<h3>ProPublica Campaign Finance API</h3>
+							<p>ProPublica's Campaign Finance API is our resource for identifing the types of sources from which candidates draw their campaign funding.</p>
+							<ul class="actions">
+								<li><a target="_blank" href="https://propublica.github.io/campaign-finance-api-docs/" class="button alt">API Info</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="spotlight">
+						<div class="image">
+							<img src="http://dryicons.com/uploads/icon/svg/8381/3658dc5e-4cf7-453d-a2db-ddbc1d675e88.svg" alt="" />
+						</div>
+						<div class="content">
+							<h3>Tweepy API</h3>
+							<p>We utilize Tweepy's Twitter API wrapper to collect tweet topics and provide a source for the word cloud.</p>
+							<ul class="actions">
+								<li><a href="http://docs.tweepy.org/en/v3.5.0/api.html" class="button alt">API Info</a></li>
+							</ul>
+						</div>
+					</div>
+					
+				</div>
+			</section>
+
+        <!-- Three -->
+            <br><br><h2><center>Under the Hood</center></h2>
+			<section id="three" class="wrapper">
+				<div class="inner split">
+                    
+					<section>
+						<h3>Bulk Processing</h3>
+						<p>It all starts with a Python script that downloads detailed information about all bills created in either the Senate or House of Representatives going back to the 113th Congress. For each bill, we extract the main topic, sponsors and cosponsors, evaluate the sponsorship in terms of bipartisan support, and assign a score based on how far the bill progressed through the legislative process. These findings for each bill are aggregated at the individual representative level, allowing us to compare representatives to each other.</p>
+                        
+                        <h3>Personalized Results</h3>
+                        <p>Because this tool is meant to allow an individual to evaluate their own representatives, we need to know which representatives to display. We do this by running the user's address through the Google Civic Information API, which gives the names of each of the three federal representatives applicable for that address. These results are used to determine the appropriate unique IDs to use for ProPublica's data. Because names are not guaranteed to be unique and sometimes appear somewhat differently, the connection between Google's data and ProPublica's data is established by matching a combination of the representative's first and last name, Twitter handle, YouTube username, and Facebook username.</p>
+                        
+					</section>
+                    
+				 	<section>
+                        <h3>Django</h3>
+                        <p>The Political Insights tool was developed in <a href="https://www.djangoproject.com/">Django</a>, a Python-based web framework. Visualizations and key datapoints are generated on-demand once the user enters their address and selects the metric they'd like to examine. This is accomplished by utilizing a combination of API calls and pre-processed bulk data.</p>
+                        
+                        <h3>Effectiveness</h3>
+                        <p>The results we provide in the tool are straightforward, but the concept of "legislative effectiveness" warrants explanation. A bill becomes a law by progressing through the following steps:
+                        <ol>
+							<li>Intoduction</li>
+							<li>Referred to committee</li>
+							<li>Recommended out of committee</li>
+							<li>Passed in the originating chamber</li>
+							<li>Passed in the other chamber</li>
+                            <li>Any changes reconciled if versions were not identical</li>
+                            <li>Signed by the President</li>
+						</ol>
+                        ProPublica's data includes every status a bill has attained, which we use to determine how far along that process the bill progressed. Every bill is scored based on that progress, and then the sponsors and cosponsors of that bill have the bill's score factored into their overall effectiveness calculation. When these scores are compared to determine rankings, it allows us to say that Senator X is more effective than Senator Y because bills sponsored by X tend to make it farther along in the process than those sponsored by Y.</p>
+                    </section>
+				</div>
+			</section>
+            
+            <!-- Four -->
+            <section id="four" class="wrapper style2 alt">
+				<div class="inner">
+                    <h2><center>Check it Out!</center></h2>
+                    <center>!!!!This is where we will put in an image or button to click that links to the tool.!!!!</center>
+                    <br><br>
+					
+					
+				</div>
+			</section>
+            
+
+		<!-- Footer -->
+			<footer id="footer">
+                <!-- <center>
+                Data Source images from <a href="http://dryicons.com/">DryIcons</a>. Click for sources: 
+                <br><a href='http://dryicons.com/icon/map-pointer-icon-9870'>Map Pointer Icon</a>
+                <br><a href='http://dryicons.com/icon/database-6958'>Database</a>
+                <br><a href='http://dryicons.com/icon/bank-icon-6284'>Bank (used to represent Government)</a>
+                <br><a href='http://dryicons.com/icon/glyph-money-bag-icon-8489'>Money</a>
+                <br><a href='http://dryicons.com/icon/circle-twitter-icon-8381'>Twitter</a>
+                </center> -->
+				<div class="copyright">
+					&copy; Political Insights. All rights reserved. Images: <a href="http://dryicons.com/">DryIcons</a>. Design: <a href="http://templated.co">TEMPLATED</a>.
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
