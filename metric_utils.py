@@ -93,7 +93,42 @@ as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
             
             return out_dict
             
+class top_topics():
 
+    def get_sponsor_topics(self, df, mid):
+        if mid in list(df.id):
+        
+            topics = list(df[(df.id == mid) & (df.congress == 115)].top_sponsor_subjects)[0]
+            topics = topics.replace("[(","").replace(")]","").split("), (")
+            topics_clean = []
+            for t in topics:
+                t = t.rsplit(', ', 1)
+                topics_clean.append([t[0], int(t[1])])
+                
+            out_dict = OrderedDict()
+            
+            for i in range(len(topics_clean)):
+                out_dict['sponsor_topics_rank_%s' %(i+1)] = {'stat': topics_clean[i][1], 'stat_explanation': topics_clean[i][0]}
+            
+            return out_dict
+            
+    def get_cosponsor_topics(self, df, mid):
+        if mid in list(df.id):
+        
+            topics = list(df[(df.id == mid) & (df.congress == 115)].top_cosponsor_subjects)[0]
+            topics = topics.replace("[(","").replace(")]","").split("), (")
+            topics_clean = []
+            for t in topics:
+                t = t.rsplit(', ', 1)
+                topics_clean.append([t[0], int(t[1])])
+                
+            out_dict = OrderedDict()
+            
+            for i in range(len(topics_clean)):
+                out_dict['sponsor_topics_rank_%s' %(i+1)] = {'stat': topics_clean[i][1], 'stat_explanation': topics_clean[i][0]}
+            
+            return out_dict          
+            
 class bipartisanship():
 
     def generate_plot(self, df, mid):
