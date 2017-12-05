@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import cProfile
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PI_proj.settings")
@@ -19,4 +20,4 @@ if __name__ == "__main__":
                 "forget to activate a virtual environment?"
             )
         raise
-    execute_from_command_line(sys.argv)
+    cProfile.run('execute_from_command_line(sys.argv)')
