@@ -4,6 +4,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from collections import OrderedDict
+import random
 
 from PI_app import models
 
@@ -143,10 +144,12 @@ as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
     def key_stats(self, mid):
         ## Temp code to show something is being passed around ##
         out_dict = OrderedDict()
-        out_dict['bills_sponsored'] = {'stat': '#', 'stat_explanation': 'Bills sponsored'}
-        out_dict['sponsored_effective'] = {'stat': '%s out of %s' %('#', '#'), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
-        out_dict['bills_cosponsored'] = {'stat': '#', 'stat_explanation': 'Bills cosponsored'}
-        out_dict['cosponsored_effective'] = {'stat': '%s out of %s' %('#', '#'), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
+        bs = random.randrange(0,70, 1)
+        cs = random.randrange(0,500, 1)
+        out_dict['bills_sponsored'] = {'stat': bs, 'stat_explanation': 'Bills sponsored'}
+        out_dict['sponsored_effective'] = {'stat': '%s out of %s' %(bs, random.randrange(bs+10,100)), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
+        out_dict['bills_cosponsored'] = {'stat': cs, 'stat_explanation': 'Bills cosponsored'}
+        out_dict['cosponsored_effective'] = {'stat': '%s out of %s' %(cs, random.randrange(cs+10,760)), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
         return out_dict
 
         ## Lisa's work that uses models ##
@@ -259,8 +262,8 @@ support if at least 25% of its cosponsors were members from a party different fr
 
         ## Temp code to show something is being passed around ##
         out_dict = OrderedDict()
-        out_dict['stat1'] = {'stat': '%s%%' %round(100), 'stat_explanation': 'Percentage of sponsored bills that gained bipartisan cosponsorship'}
-        out_dict['stat2'] = {'stat': '%s%%' %round(100), 'stat_explanation': 'Percentage of own party out-performed in this metric'}
+        out_dict['stat1'] = {'stat': '%s%%' %round(random.randrange(0,100,1)), 'stat_explanation': 'Percentage of sponsored bills that gained bipartisan cosponsorship'}
+        out_dict['stat2'] = {'stat': '%s%%' %round(random.randrange(0,100,1)), 'stat_explanation': 'Percentage of own party out-performed in this metric'}
         return out_dict
 
 
@@ -291,10 +294,12 @@ class financials():
 
         ## Temp code to show something is being passed around ##
         fig_exp = "When conducting their campaigns, representatives accept donations from both private individuals as well as Political Action Committees (PACS), organizations that collect financial contributions from their members and use the funds to aid or hinder candidate campaigns, or legislation. The metric shows the number of individual donor dollars per $1 donated by PACS.The filled circle shows PAC donor dollars versus  individual donor dollars given to your representative's campaign, colored by political party affiliation."
-        fig_dict = {'fig': "{} for {}".format ('Financials', mid), 'fig_explanation': fig_exp}
-        quick_stat_dict = {'total_from_individuals': {'stat':'#', 'stat_explanation': "Total from individuals"},
-                           'total_from_pacs': {'stat':'#', 'stat_explanation': "Total from PACS"},
-                           'donor_ratio': {'stat':'#', 'stat_explanation': "Donor ratio"}}
+        fig_dict = {'fig': "{} for {}".format ('Financials', REP_ID), 'fig_explanation': fig_exp}
+        i = random.randrange(10000,3000000,1000)
+        p = random.randrange(10000,3000000,1000)
+        quick_stat_dict = {'total_from_individuals': {'stat':i, 'stat_explanation': "Total from individuals"},
+                           'total_from_pacs': {'stat':p, 'stat_explanation': "Total from PACS"},
+                           'donor_ratio': {'stat':round(i*1.0/p, 2), 'stat_explanation': "Donor ratio"}}
         return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
 
         ## Lisa's original work below that uses csv ##
@@ -377,11 +382,27 @@ class twitter_stuff():
 
         ## Temp code to show something is being passed around ##
         fig_exp = "Social media, especially Twitter, is a powerful form of communication today. Sentiment analysis of tweets indicates personal attitude and outlook on issues. Frequent discussion of topics indicates awareness and top-of-mind action potential."
-        fig_dict = {'fig': "{} for {}".format ('Financials', mid), 'fig_explanation': fig_exp}
-        quick_stat_dict = {'total_tweets': {'stat':'#', 'stat_explanation': "Total tweet count"},
-                           'pos_tweets': {'stat':'#', 'stat_explanation': "Positive tweet count"},
-                           'neg_tweets': {'stat':'#', 'stat_explanation': "Negative tweet count"},
-                           'topics': {'stat':'A, B, C, D, E', 'stat_explanation': "Top five topics"}}
+        fig_dict = {'fig': "{} for {}".format ('Financials', REP_ID), 'fig_explanation': fig_exp}
+        t = random.randrange(0,10000,1)
+        p = random.randrange(0, t, 1)
+        n = random.randrange(0, t-p, 1)
+        topics_list = [
+        'Agriculture and Food [127]', 'Animals [52]','Armed Forces and National Security [664]','Arts, Culture, Religion [33]',
+        'Civil Rights and Liberties, Minority Issues [111]',
+        'Commerce [155]','Congress [306]','Crime and Law Enforcement [445]','Economics and Public Finance [96]',
+        'Education [308]','Emergency Management [103]','Energy [212]',
+        'Environmental Protection [195]','Families [44]','Finance and Financial Sector [270]',
+        'Foreign Trade and International Finance [55]','Government Operations and Politics [573]',
+        'Health [791]','Housing and Community Development [80]','Immigration [222]',
+        'International Affairs [475]','Labor and Employment [214]','Law [74]',
+        'Native Americans [106]','Public Lands and Natural Resources [439]','Science, Technology, Communications [180]',
+        'Social Sciences and History [4]','Social Welfare [97]','Sports and Recreation [44]',
+        'Taxation [647]','Transportation and Public Works [249]','Water Resources Development [46]']
+        tl = random.sample(topics_list, 5)
+        quick_stat_dict = {'total_tweets': {'stat':t, 'stat_explanation': "Total tweet count"},
+                           'pos_tweets': {'stat':p, 'stat_explanation': "Positive tweet count"},
+                           'neg_tweets': {'stat':n, 'stat_explanation': "Negative tweet count"},
+                           'topics': {'stat':tl, 'stat_explanation': "Top five topics"}}
         return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
         ## Lisa's original work below that uses csv ##
         

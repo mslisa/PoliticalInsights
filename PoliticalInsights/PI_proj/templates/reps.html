@@ -35,7 +35,7 @@
           {% if metric == selected_metric.choice_label %}
             <label for="{{ selected_metric.id_for_label }}" class="btn btn-primary" >
           {% else %}
-            <label for="{{ selected_metric.id_for_label }}" class="btn btn-info" >
+            <label for="{{ selected_metric.id_for_label }}" class="btn btn-danger" >
           {% endif %}
             {{ selected_metric.choice_label }}
             <span class="radio">{{ selected_metric.tag }}</span>
