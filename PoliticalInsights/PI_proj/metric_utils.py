@@ -7,25 +7,33 @@ from collections import OrderedDict
 
 from PI_app import models
 
+import logging
+
+logger = logging.getLogger('mu')
+
 FIG_SIZE = (4,4)
 CURRENT_CONGRESS = 115
 
 class effectiveness():
 
     def generate_plot(self, mid):
+        logger.error('LISA: 200 {}'.format(mid))
 
         rep_info_list = models.Effectiveness.objects.filter(rep_id = mid, congress=CURRENT_CONGRESS)
 
         #if no rep found, won't do anything
         for rep in rep_info_list:
+            logger.error('LISA: 210 logger mark')
             
             # Limit congresses (this can be expanded later if wanted)
             congresses = [CURRENT_CONGRESS]
 
             for this_congress in congresses:
+                logger.error('LISA: 220 logger mark')
                 congress = models.Effectiveness.objects.filter(congress=this_congress, chamber=rep.chamber)
 
                 # extract data for plot
+                logger.error('LISA: 230 logger mark')
                 sponsor_rank = [x.sponsor_rank for x in congress]
                 cosponsor_rank = [x.cosponsor_rank for x in congress]
                 plt_color = [x.color for x in congress]
@@ -33,6 +41,7 @@ class effectiveness():
                         
                 # Build the figure
                 # TODO: add something about subplots to handle multiple congresses
+                logger.error('LISA: 240 logger mark')
                 plt.figure(figsize=FIG_SIZE)
                 plt.scatter(sponsor_rank, cosponsor_rank, color=plt_color, s=s)
                 # set the selected rep to a s=200 green dot
@@ -47,13 +56,20 @@ class effectiveness():
                 #plt.title('%s %s Effectiveness Rankings' %(congress, chamber))
                 plt.title('Effectiveness Rankings')
                 plt.tight_layout()
+                logger.error('LISA: 250 logger mark')
 
         fig_exp = "Effectiveness is an indication of how successful members are at writing bills that go on to become law. \
 Being ranked #1 would mean that the member sponsors or cosponsors bills that make it further along in the legislative \
 process, on average, than the rest of the members in his or her caucus. This figure shows the member's effectiveness both \
 as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
 
-        return {'fig': plt.figure(), 'fig_explanation': fig_exp}
+        logger.error('LISA: 260 logger mark')
+
+        fig = plt.figure()
+
+        logger.error('LISA: 270 logger mark')
+
+        return {'fig': fig, 'fig_explanation': fig_exp}
             
 
 
