@@ -112,6 +112,9 @@ def home(request):
         rendered_data['metric'] = metric
         rendered_data['selected_metric_form'] = SelectMetric(metrics, initial={'selected_metric': metric})
         logger.error('LISA: 40 {}'.format(metric))
+
+        df = ''
+
         # get metric text to display dependent upon metric (figure comes from metric_graph function)     
         if metric == 'Contact':
             logger.error('LISA: 50con logger mark')
@@ -147,7 +150,7 @@ def home(request):
             
         elif metric == 'Bipartisanship':
             logger.error('LISA: 50bip logger mark')
-            df = pd.read_csv('data/effectiveness.csv')
+            # df = pd.read_csv('data/effectiveness.csv')
             metric_obj = metric_utils.bipartisanship()
 
             # figure
@@ -160,7 +163,7 @@ def home(request):
             
         elif metric == 'Financial':
             logger.error('LISA: 50fin logger mark')
-            df = pd.read_csv("data/fincampaign_w_twitter.csv", header=None)
+            # df = pd.read_csv("data/fincampaign_w_twitter.csv", header=None)
             financials = metric_utils.financials()
             metric_obj = financials.fin_plot(df, i_rep) # return dict{'fig_dict', 'quick_stat_dict'}
 
@@ -174,7 +177,7 @@ def home(request):
             
         elif metric == 'Social':
             logger.error('LISA: 50soc logger mark')
-            df = pd.read_csv('data/final_twitter_df.csv')
+            # df = pd.read_csv('data/final_twitter_df.csv')
             twitter = metric_utils.twitter_stuff()
             metric_obj = twitter.twitter(df, i_rep) # return dict{'fig_dict', 'quick_stat_dict'}
 
@@ -193,6 +196,8 @@ def metrics_graph(request):
     logger.error('LISA: 100  logger mark')
     metric = request.GET['metric']
     rep_id = request.GET['rep_id']
+
+    df = ''
 
     if metric == 'Contact':
         logger.error('LISA: 110con  logger mark')
@@ -217,7 +222,7 @@ def metrics_graph(request):
         
     elif metric == 'Bipartisanship':
         logger.error('LISA: 110bip  logger mark')
-        df = pd.read_csv('data/effectiveness.csv')
+        # df = pd.read_csv('data/effectiveness.csv')
         metric_obj = metric_utils.bipartisanship()
 
         # figure
@@ -226,7 +231,7 @@ def metrics_graph(request):
         
     elif metric == 'Financial':
         logger.error('LISA: 110fin  logger mark')
-        df = pd.read_csv("data/fincampaign_w_twitter.csv", header=None)
+        # df = pd.read_csv("data/fincampaign_w_twitter.csv", header=None)
         financials = metric_utils.financials()
         metric_obj = financials.fin_plot(df, rep_id) # return dict{'fig_dict', 'quick_stat_dict'}
 
@@ -236,7 +241,7 @@ def metrics_graph(request):
         
     elif metric == 'Social':
         logger.error('LISA: 110soc  logger mark')
-        df = pd.read_csv('data/final_twitter_df.csv')
+        # df = pd.read_csv('data/final_twitter_df.csv')
         twitter = metric_utils.twitter_stuff()
         metric_obj = twitter.twitter(df, rep_id) # return dict{'fig_dict', 'quick_stat_dict'}
 
@@ -246,13 +251,13 @@ def metrics_graph(request):
 
 
     # process figure for url pass
-    logger.error('LISA: 120  logger mark')
-    canvas = FigureCanvas(fig)
-    logger.error('LISA: 130  logger mark')
-    fig_response = HttpResponse(content_type = 'image/png')
-    logger.error('LISA: 140  logger mark')
-    canvas.print_png(fig_response)
-    logger.error('LISA: 150  logger mark')
+    # logger.error('LISA: 120  logger mark')
+    # canvas = FigureCanvas(fig)
+    # logger.error('LISA: 130  logger mark')
+    # fig_response = HttpResponse(content_type = 'image/png')
+    # logger.error('LISA: 140  logger mark')
+    # canvas.print_png(fig_response)
+    # logger.error('LISA: 150  logger mark')
     return fig_response
 
 def charts_graph(request):
