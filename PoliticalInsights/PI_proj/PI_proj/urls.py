@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^metrics_graph/$', views.metrics_graph, name='metric_graph'),
-    url(r'^charts_graph/$', views.charts_graph, name='metric_graph'),
+    url(r'^charts_graph/$', views.charts_graph, name='charts_graph'),
     url(r'^about/$', views.about_view, name='about'),
     url(r'^inspect/$', views.dump_request),
 ]

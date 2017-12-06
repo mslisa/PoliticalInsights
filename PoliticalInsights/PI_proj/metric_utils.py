@@ -17,161 +17,72 @@ CURRENT_CONGRESS = 115
 class effectiveness():
 
     def generate_plot(self, mid):
-        logger.error('LISA: 200 {}'.format(mid))
 
-        rep_info_list = models.Effectiveness.objects.filter(rep_id = mid, congress=CURRENT_CONGRESS)
-
-        #if no rep found, won't do anything
-        for rep in rep_info_list:
-            logger.error('LISA: 210 logger mark')
-            
-            # Limit congresses (this can be expanded later if wanted)
-            congresses = [CURRENT_CONGRESS]
-
-            for this_congress in congresses:
-                logger.error('LISA: 220 logger mark')
-                congress = models.Effectiveness.objects.filter(congress=this_congress, chamber=rep.chamber)
-
-                # extract data for plot
-                logger.error('LISA: 230 logger mark')
-                sponsor_rank = [x.sponsor_rank for x in congress]
-                cosponsor_rank = [x.cosponsor_rank for x in congress]
-                plt_color = [x.color for x in congress]
-                s = [x.size for x in congress]
-                        
-                # Build the figure
-                # TODO: add something about subplots to handle multiple congresses
-                logger.error('LISA: 240 logger mark')
-                plt.figure(figsize=FIG_SIZE)
-                plt.scatter(sponsor_rank, cosponsor_rank, color=plt_color, s=s)
-                # set the selected rep to a s=200 green dot
-                plt.scatter(rep.sponsor_rank, rep.cosponsor_rank, color='green', s=200)
-                plt.xlabel('Sponsorship rank')
-                plt.ylabel('Co-sponsorship rank')
-                ax = plt.gca()
-                ax.set_xlim([0,max(temp_df.sponsor_rank)+2])
-                ax.invert_xaxis()
-                ax.set_ylim([0,max(temp_df.cosponsor_rank)+2])
-                ax.invert_yaxis()
-                #plt.title('%s %s Effectiveness Rankings' %(congress, chamber))
-                plt.title('Effectiveness Rankings')
-                plt.tight_layout()
-                logger.error('LISA: 250 logger mark')
-
+        ## Temp code to show something is being passed around ##
         fig_exp = "Effectiveness is an indication of how successful members are at writing bills that go on to become law. \
 Being ranked #1 would mean that the member sponsors or cosponsors bills that make it further along in the legislative \
 process, on average, than the rest of the members in his or her caucus. This figure shows the member's effectiveness both \
 as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
+        return {'fig': "{} for {}".format ('Effectiveness', mid), 'fig_explanation': fig_exp}
 
-        logger.error('LISA: 260 logger mark')
+        ## Lisa's work that uses models ##
 
-        fig = plt.figure()
+#         logger.error('LISA: 200 {}'.format(mid))
 
-        logger.error('LISA: 270 logger mark')
+#         rep_info_list = models.Effectiveness.objects.filter(rep_id = mid, congress=CURRENT_CONGRESS)
 
-        return {'fig': fig, 'fig_explanation': fig_exp}
+#         #if no rep found, won't do anything
+#         for rep in rep_info_list:
+#             logger.error('LISA: 210 logger mark')
             
+#             # Limit congresses (this can be expanded later if wanted)
+#             congresses = [CURRENT_CONGRESS]
 
+#             for this_congress in congresses:
+#                 logger.error('LISA: 220 logger mark')
+#                 congress = models.Effectiveness.objects.filter(congress=this_congress, chamber=rep.chamber)
 
-        # if mid in list(df.id):
-        #     row_index = df.id == mid
-        #     df.loc[row_index, 'size'] = 200
-            
-        #     congresses = [115] # using this structure in case we want
-        #                        # to expand back to 113th (if applicable) 
-        #     chamber = sorted(df[df.id == mid].chamber.unique())[0]
-            
-        #     # Loop through every applicable congress for the given mid
-        #     for congress in congresses:
-        #         # Filter the dataframe to only the data we want to plot
-        #         temp_df = df[(df.congress == congress) & (df.chamber == chamber) & (df.bi_sponsor_count != 0)]
-        #         #member_index = np.where(temp_df.id == mid)[0][0]
-        #         colors = []
-        #         for i in range(len(temp_df.color)):
-        #             if list(temp_df.id)[i] == mid:
-        #                 colors.append('green')
-        #             else:
-        #                 colors.append(list(temp_df.color)[i])
-                
-        #         '''
-        #         fig=Figure()
-        #         ax=fig.add_subplot(111)
-        #         ax.scatter(temp_df.sponsor_rank, temp_df.cosponsor_rank, color=colors, s=temp_df['size'])
-        #         plt.xlabel('sponsorship rank')
-        #         plt.ylabel('cosponsorship rank')
-        #         ax.set_xlim([0,max(temp_df.sponsor_rank)+2])
-        #         ax.invert_xaxis()
-        #         ax.set_ylim([0,max(temp_df.cosponsor_rank)+2])
-        #         ax.invert_yaxis()
-        #         plt.title('Effectiveness Rankings')
-        #         return fig
-        #         '''
-                
-        #         # Build the plots
-        #         plt.figure(figsize=FIG_SIZE)
-                
-        #         #plt.subplot(221)
-        #         plt.scatter(temp_df.sponsor_rank, temp_df.cosponsor_rank, color=colors, s=temp_df['size'])
-        #         plt.xlabel('Sponsorship rank')
-        #         plt.ylabel('Co-sponsorship rank')
-        #         ax = plt.gca()
-        #         ax.set_xlim([0,max(temp_df.sponsor_rank)+2])
-        #         ax.invert_xaxis()
-        #         ax.set_ylim([0,max(temp_df.cosponsor_rank)+2])
-        #         ax.invert_yaxis()
-        #         #plt.title('%s %s Effectiveness Rankings' %(congress, chamber))
-        #         plt.title('Effectiveness Rankings')
-                
+#                 # extract data for plot
+#                 logger.error('LISA: 230 logger mark')
+#                 sponsor_rank = [x.sponsor_rank for x in congress]
+#                 cosponsor_rank = [x.cosponsor_rank for x in congress]
+#                 plt_color = [x.color for x in congress]
+#                 s = [x.size for x in congress]
+                        
+#                 # Build the figure
+#                 # TODO: add something about subplots to handle multiple congresses
+#                 logger.error('LISA: 240 logger mark')
+#                 plt.figure(figsize=FIG_SIZE)
+#                 plt.scatter(sponsor_rank, cosponsor_rank, color=plt_color, s=s)
+#                 # set the selected rep to a s=200 green dot
+#                 plt.scatter(rep.sponsor_rank, rep.cosponsor_rank, color='green', s=200)
+#                 plt.xlabel('Sponsorship rank')
+#                 plt.ylabel('Co-sponsorship rank')
+#                 ax = plt.gca()
+#                 ax.set_xlim([0,max(temp_df.sponsor_rank)+2])
+#                 ax.invert_xaxis()
+#                 ax.set_ylim([0,max(temp_df.cosponsor_rank)+2])
+#                 ax.invert_yaxis()
+#                 #plt.title('%s %s Effectiveness Rankings' %(congress, chamber))
+#                 plt.title('Effectiveness Rankings')
 #                 plt.tight_layout()
-#                 fig_exp = "Effectiveness is an indication of how successful members are at writing bills that go on to become law. \
+#                 logger.error('LISA: 250 logger mark')
+
+#         fig_exp = "Effectiveness is an indication of how successful members are at writing bills that go on to become law. \
 # Being ranked #1 would mean that the member sponsors or cosponsors bills that make it further along in the legislative \
 # process, on average, than the rest of the members in his or her caucus. This figure shows the member's effectiveness both \
 # as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
-                
-#                 return {'fig': plt.figure(), 'fig_explanation': fig_exp}
-                
-    def key_stats(self, mid):
 
-        rep_info_list =  models.Effectiveness.objects.filter(rep_id = mid, congress=CURRENT_CONGRESS)
+#         logger.error('LISA: 260 logger mark')
 
-        for rep in rep_info_list:
-            congress = models.Effectiveness.objects.filter(congress=CURRENT_CONGRESS, chamber=rep.chamber, party=rep.party)
-            out_dict = OrderedDict()
-            out_dict['bills_sponsored'] = {'stat': str(rep.sponsor_count), 'stat_explanation': 'Bills sponsored'}
-            out_dict['sponsored_effective'] = {'stat': '%s out of %s' %(rep.sponsor_rank, len(congress)), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
-            out_dict['bills_cosponsored'] = {'stat': str(rep.cosponsor_count), 'stat_explanation': 'Bills cosponsored'}
-            out_dict['cosponsored_effective'] = {'stat': '%s out of %s' %(rep.cosponsor_rank, len(congress)), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
+#         fig = plt.figure()
 
-        # if mid in list(df.id):
-            
-        #     chamber = sorted(df[df.id == mid].chamber.unique())[0]
-        #     party = sorted(df[df.id == mid].party.unique())[0]
-            
-        #     # Filter the dataframe
-        #     temp_df = df[(df.congress == 115) & (df.chamber == chamber) & (df.party == party)]
-            
-        #     name = list(temp_df[temp_df.id == mid].name)[0]
-            
-        #     s_rank = list(temp_df[temp_df.id == mid].sponsor_rank)[0]
-        #     s_count = list(temp_df[temp_df.id == mid].sponsor_count)[0]
-        #     c_rank = list(temp_df[temp_df.id == mid].cosponsor_rank)[0]
-        #     c_count = list(temp_df[temp_df.id == mid].cosponsor_count)[0]
-            
-        #     out_of = len(temp_df)
-        #     s_count_percentile = len(temp_df[temp_df.sponsor_count < s_count]) * 1.0 / out_of
-        #     c_count_percentile = len(temp_df[temp_df.cosponsor_count < c_count]) * 1.0 / out_of
-            
-        #     out_dict = OrderedDict()
-        #     out_dict['stat1'] = {'stat': '%s' %s_count, 'stat_explanation': 'Bills sponsored'}
-        #     out_dict['stat2'] = {'stat': '%s out of %s' %(s_rank, out_of), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
-        #     out_dict['stat3'] = {'stat': '%s' %c_count, 'stat_explanation': 'Bills cosponsored'}
-        #     out_dict['stat4'] = {'stat': '%s out of %s' %(c_rank, out_of), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
-            
-            return out_dict
+#         logger.error('LISA: 270 logger mark')
 
-# class effectiveness():
+#         return {'fig': fig, 'fig_explanation': fig_exp}
+            
+        ## Scott's original work below that uses csv ##
 
-#     def generate_plot(self, df, mid):
 #         if mid in list(df.id):
 #             row_index = df.id == mid
 #             df.loc[row_index, 'size'] = 200
@@ -229,39 +140,71 @@ as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
                 
 #                 return {'fig': plt.figure(), 'fig_explanation': fig_exp}
                 
-#     def key_stats(self, df, mid):
-#         if mid in list(df.id):
+    def key_stats(self, mid):
+        ## Temp code to show something is being passed around ##
+        out_dict = OrderedDict()
+        out_dict['bills_sponsored'] = {'stat': '#', 'stat_explanation': 'Bills sponsored'}
+        out_dict['sponsored_effective'] = {'stat': '%s out of %s' %('#', '#'), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
+        out_dict['bills_cosponsored'] = {'stat': '#', 'stat_explanation': 'Bills cosponsored'}
+        out_dict['cosponsored_effective'] = {'stat': '%s out of %s' %('#', '#'), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
+        return out_dict
+
+        ## Lisa's work that uses models ##
+
+        # rep_info_list =  models.Effectiveness.objects.filter(rep_id = mid, congress=CURRENT_CONGRESS)
+
+        # for rep in rep_info_list:
+        #     congress = models.Effectiveness.objects.filter(congress=CURRENT_CONGRESS, chamber=rep.chamber, party=rep.party)
+        #     out_dict = OrderedDict()
+        #     out_dict['bills_sponsored'] = {'stat': str(rep.sponsor_count), 'stat_explanation': 'Bills sponsored'}
+        #     out_dict['sponsored_effective'] = {'stat': '%s out of %s' %(rep.sponsor_rank, len(congress)), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
+        #     out_dict['bills_cosponsored'] = {'stat': str(rep.cosponsor_count), 'stat_explanation': 'Bills cosponsored'}
+        #     out_dict['cosponsored_effective'] = {'stat': '%s out of %s' %(rep.cosponsor_rank, len(congress)), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
+
+
+        ## Scott's original work below that uses csv ##
+
+        # if mid in list(df.id):
             
-#             chamber = sorted(df[df.id == mid].chamber.unique())[0]
-#             party = sorted(df[df.id == mid].party.unique())[0]
+        #     chamber = sorted(df[df.id == mid].chamber.unique())[0]
+        #     party = sorted(df[df.id == mid].party.unique())[0]
             
-#             # Filter the dataframe
-#             temp_df = df[(df.congress == 115) & (df.chamber == chamber) & (df.party == party)]
+        #     # Filter the dataframe
+        #     temp_df = df[(df.congress == 115) & (df.chamber == chamber) & (df.party == party)]
             
-#             name = list(temp_df[temp_df.id == mid].name)[0]
+        #     name = list(temp_df[temp_df.id == mid].name)[0]
             
-#             s_rank = list(temp_df[temp_df.id == mid].sponsor_rank)[0]
-#             s_count = list(temp_df[temp_df.id == mid].sponsor_count)[0]
-#             c_rank = list(temp_df[temp_df.id == mid].cosponsor_rank)[0]
-#             c_count = list(temp_df[temp_df.id == mid].cosponsor_count)[0]
+        #     s_rank = list(temp_df[temp_df.id == mid].sponsor_rank)[0]
+        #     s_count = list(temp_df[temp_df.id == mid].sponsor_count)[0]
+        #     c_rank = list(temp_df[temp_df.id == mid].cosponsor_rank)[0]
+        #     c_count = list(temp_df[temp_df.id == mid].cosponsor_count)[0]
             
-#             out_of = len(temp_df)
-#             s_count_percentile = len(temp_df[temp_df.sponsor_count < s_count]) * 1.0 / out_of
-#             c_count_percentile = len(temp_df[temp_df.cosponsor_count < c_count]) * 1.0 / out_of
+        #     out_of = len(temp_df)
+        #     s_count_percentile = len(temp_df[temp_df.sponsor_count < s_count]) * 1.0 / out_of
+        #     c_count_percentile = len(temp_df[temp_df.cosponsor_count < c_count]) * 1.0 / out_of
             
-#             out_dict = OrderedDict()
-#             out_dict['stat1'] = {'stat': '%s' %s_count, 'stat_explanation': 'Bills sponsored'}
-#             out_dict['stat2'] = {'stat': '%s out of %s' %(s_rank, out_of), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
-#             out_dict['stat3'] = {'stat': '%s' %c_count, 'stat_explanation': 'Bills cosponsored'}
-#             out_dict['stat4'] = {'stat': '%s out of %s' %(c_rank, out_of), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
+        #     out_dict = OrderedDict()
+        #     out_dict['stat1'] = {'stat': '%s' %s_count, 'stat_explanation': 'Bills sponsored'}
+        #     out_dict['stat2'] = {'stat': '%s out of %s' %(s_rank, out_of), 'stat_explanation': 'Sponsorship effectiveness compared to own party'}
+        #     out_dict['stat3'] = {'stat': '%s' %c_count, 'stat_explanation': 'Bills cosponsored'}
+        #     out_dict['stat4'] = {'stat': '%s out of %s' %(c_rank, out_of), 'stat_explanation': 'Cosponsorship effectiveness compared to own party'}
             
-#             return out_dict
+            # return out_dict
             
 
-# class bipartisanship():
+class bipartisanship():
 
-#     def generate_plot(self, df, mid):
-#         if mid in list(df.id):
+    def generate_plot(self, df, mid):
+
+        ## Temp code to show something is being passed around ##
+        fig_exp = "This Bipartisanship figure indicates the degree to which a member sponsors legislation that garners \
+cosponsorship support from members of the opposite party. The blue and red sections show the distribution for democrats and republicans, respectively. \
+The solid line shows where this particular member falls in their party's distribution. For this analysis, a bill is considered to have bipartisan \
+support if at least 25% of its cosponsors were members from a party different from the sponsor's party."
+        return {'fig': "{} for {}".format ('Bipartisanship', mid), 'fig_explanation': fig_exp}
+
+        ## Scott's original work below that uses csv ##
+        # if mid in list(df.id):
 #             row_index = df.id == mid
 #             df.loc[row_index, 'size'] = 200
             
@@ -312,7 +255,16 @@ as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
                 
 #                 return {'fig': plt.figure(), 'fig_explanation': fig_exp}
                 
-#     def key_stats(self, df, mid):
+    def key_stats(self, df, mid):
+
+        ## Temp code to show something is being passed around ##
+        out_dict = OrderedDict()
+        out_dict['stat1'] = {'stat': '%s%%' %round(100), 'stat_explanation': 'Percentage of sponsored bills that gained bipartisan cosponsorship'}
+        out_dict['stat2'] = {'stat': '%s%%' %round(100), 'stat_explanation': 'Percentage of own party out-performed in this metric'}
+        return out_dict
+
+
+        ## Scott's original work below that uses csv ##
 #         if mid in list(df.id):
             
 #             chamber = sorted(df[df.id == mid].chamber.unique())[0]
@@ -331,11 +283,21 @@ as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
 #             out_dict['stat1'] = {'stat': '%s%%' %round(bi_pct*100), 'stat_explanation': 'Percentage of sponsored bills that gained bipartisan cosponsorship'}
 #             out_dict['stat2'] = {'stat': '%s%%' %round(bi_pct_percentile*100), 'stat_explanation': 'Percentage of own party out-performed in this metric'}
             
-#             return out_dict
+            # return out_dict
         
-# class financials():
+class financials():
     
-#     def fin_plot(self,df1,REP_ID):
+    def fin_plot(self,df1,REP_ID):
+
+        ## Temp code to show something is being passed around ##
+        fig_exp = "When conducting their campaigns, representatives accept donations from both private individuals as well as Political Action Committees (PACS), organizations that collect financial contributions from their members and use the funds to aid or hinder candidate campaigns, or legislation. The metric shows the number of individual donor dollars per $1 donated by PACS.The filled circle shows PAC donor dollars versus  individual donor dollars given to your representative's campaign, colored by political party affiliation."
+        fig_dict = {'fig': "{} for {}".format ('Financials', mid), 'fig_explanation': fig_exp}
+        quick_stat_dict = {'total_from_individuals': {'stat':'#', 'stat_explanation': "Total from individuals"},
+                           'total_from_pacs': {'stat':'#', 'stat_explanation': "Total from PACS"},
+                           'donor_ratio': {'stat':'#', 'stat_explanation': "Donor ratio"}}
+        return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
+
+        ## Lisa's original work below that uses csv ##
 #         #make dictionary
         
 #         import pandas as pd
@@ -402,16 +364,26 @@ as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
 #         #plt.show();
 #         # plt.savefig('findata.png');
 
-#         fig_dict = {'fig': plt.figure(), 'fig_explanation': c_dict[REP_ID]['explanation']}
-#         quick_stat_dict = {'total_from_individuals': {'stat':total_from_individuals_, 'stat_explanation': "Total from individuals"},
-#                            'total_from_pacs': {'stat':total_from_pacs_, 'stat_explanation': "Total from PACS"},
-#                            'donor_ratio': {'stat':round(float(total_from_individuals_+1)/float(total_from_pacs_+1),2), 'stat_explanation': "Donor ratio"}}
-#         return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
+        # fig_dict = {'fig': plt.figure(), 'fig_explanation': c_dict[REP_ID]['explanation']}
+        # quick_stat_dict = {'total_from_individuals': {'stat':total_from_individuals_, 'stat_explanation': "Total from individuals"},
+        #                    'total_from_pacs': {'stat':total_from_pacs_, 'stat_explanation': "Total from PACS"},
+        #                    'donor_ratio': {'stat':round(float(total_from_individuals_+1)/float(total_from_pacs_+1),2), 'stat_explanation': "Donor ratio"}}
+        # return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
 
 
-# class twitter_stuff():
+class twitter_stuff():
     
-#     def twitter(self,df_t,REP_ID):
+    def twitter(self,df_t,REP_ID):
+
+        ## Temp code to show something is being passed around ##
+        fig_exp = "Social media, especially Twitter, is a powerful form of communication today. Sentiment analysis of tweets indicates personal attitude and outlook on issues. Frequent discussion of topics indicates awareness and top-of-mind action potential."
+        fig_dict = {'fig': "{} for {}".format ('Financials', mid), 'fig_explanation': fig_exp}
+        quick_stat_dict = {'total_tweets': {'stat':'#', 'stat_explanation': "Total tweet count"},
+                           'pos_tweets': {'stat':'#', 'stat_explanation': "Positive tweet count"},
+                           'neg_tweets': {'stat':'#', 'stat_explanation': "Negative tweet count"},
+                           'topics': {'stat':'A, B, C, D, E', 'stat_explanation': "Top five topics"}}
+        return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
+        ## Lisa's original work below that uses csv ##
         
 #         import re, string
 #         import pandas as pd
@@ -529,12 +501,12 @@ as a bills sponsor (horizontal axis) and cosponsor (vertical axis)"
 #         # plt.savefig('word_cloud.png');
 
 #         fig_dict = {'fig': plt.figure(), 'fig_explanation': c_dict[REP_ID]['explanation']}
-#         quick_stat_dict = {'total_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), 'stat_explanation': "Total tweet count"},
-#                            'pos_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), 'stat_explanation': "Positive tweet count"},
-#                            'neg_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), 'stat_explanation': "Negative tweet count"},
-#                            'neg_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), 'stat_explanation': "Negative tweet count"},
-#                            'topics': {'stat':", ".join(sorted(topics_dict, key=topics_dict.get, reverse=True)[5]), 'stat_explanation': "Top five topics"}}
-#         return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
+        # quick_stat_dict = {'total_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'total_tweets'].item(), 'stat_explanation': "Total tweet count"},
+        #                    'pos_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'pos_tweets'].item(), 'stat_explanation': "Positive tweet count"},
+        #                    'neg_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), 'stat_explanation': "Negative tweet count"},
+        #                    'neg_tweets': {'stat':df_t.loc[df_t['id'] == REP_ID, 'neg_tweets'].item(), 'stat_explanation': "Negative tweet count"},
+        #                    'topics': {'stat':", ".join(sorted(topics_dict, key=topics_dict.get, reverse=True)[5]), 'stat_explanation': "Top five topics"}}
+        # return {'fig_dict': fig_dict, 'quick_stat_dict': quick_stat_dict}
     
 class contact():
     
