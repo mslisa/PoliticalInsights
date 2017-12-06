@@ -69,6 +69,8 @@ def home(request):
     
     # if POST request (user entered information) then process form data
     if request.method == 'POST':
+        # TODO delete this and make sure it's out of html. Dev only.
+        rendered_data['posted_data']=request.POST
 
         #### USER ADDRESS ###
 
@@ -79,6 +81,7 @@ def home(request):
             return render(request, 'home.html', rendered_data)
         try:
             my_reps = get_reps(request.POST['user_address'])
+            rendered_data['error_message'] = False
         except:
             rendered_data['error_message'] = 'Address not found. Please try again.'
             return render(request, 'home.html', rendered_data)
@@ -97,14 +100,11 @@ def home(request):
         # TODO: add in party affiliation
         rendered_data['selected_rep_form'] = SelectRep(my_reps, initial={'selected_rep': i_rep})
 
-        # TODO delete this and make sure it's out of html. Dev only.
-        rendered_data['posted_data']=request.POST
-
         #### METRICS ###
 
         # used POSTed metric otherwise initialize to Contact
         logger.error('LISA: 40 logger mark')
-        metrics = ['Contact', 'Effectiveness']#, 'Bipartisanship', 'Financial', 'Social']
+        metrics = ['Contact', 'Effectiveness', 'Bipartisanship', 'Financial', 'Social']
         if 'selected_metric' in request.POST:
             metric = request.POST['selected_metric']
         else:
@@ -123,6 +123,8 @@ def home(request):
             contact_dict = contact.contact_card('data/contact_file.json', i_rep)
             logger.error('LISA: 52con logger mark')
             rendered_data['quick_stat_dict'] = contact_dict
+            rendered_data['fig_explanation'] = ''
+            rendered_data['fig'] = ''
             
         elif metric == 'Effectiveness':
             logger.error('LISA: 50eff logger mark')
@@ -131,6 +133,7 @@ def home(request):
             fig_dict = metric_obj.generate_plot(i_rep)
             logger.error('LISA: 52eff logger mark')
             rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            rendered_data['fig'] = fig_dict['fig']
             logger.error('LISA: 53eff logger mark')
             quick_stat_dict = metric_obj.key_stats(i_rep)
             logger.error('LISA: 54eff logger mark')
@@ -156,6 +159,7 @@ def home(request):
             # figure
             fig_dict = metric_obj.generate_plot(df, i_rep)     # return fig_dict (see structure at top)
             rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            rendered_data['fig'] = fig_dict['fig']
             
             #quick statistics (like big number graphs)
             quick_stat_dict = metric_obj.key_stats(df, i_rep)   # return quick_stat_dict (see structure at top)
@@ -170,6 +174,7 @@ def home(request):
             # figure
             fig_dict = metric_obj['fig_dict']     # return fig_dict (see structure at top)
             rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            rendered_data['fig'] = fig_dict['fig']
             
             #quick statistics (like big number graphs)
             quick_stat_dict = metric_obj['quick_stat_dict']   # return quick_stat_dict (see structure at top)
@@ -184,6 +189,7 @@ def home(request):
             # figure
             fig_dict = metric_obj['fig_dict']     # return fig_dict (see structure at top)
             rendered_data['fig_explanation'] = fig_dict['fig_explanation']
+            rendered_data['fig'] = fig_dict['fig']
             
             #quick statistics (like big number graphs)
             quick_stat_dict = metric_obj['quick_stat_dict']   # return quick_stat_dict (see structure at top)

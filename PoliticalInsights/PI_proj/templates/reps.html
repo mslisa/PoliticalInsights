@@ -17,7 +17,7 @@
           {% else %}
             <label for="{{ rep.id_for_label }}" class="btn btn-link" >
           {% endif %}
-            <img src={{ rep.choice_label.img_url }} alt={{ rep.choice_label.name }} height="165" width="135" class="rounded"><br>
+            <img src="{{ rep.choice_label.img_url }}" alt="{{ rep.choice_label.name }}" height="165" width="135" class="rounded"><br>
             {{ rep.choice_label.official_title }}<br>
             {{ rep.choice_label.name }}<br>
             <span class="radio">{{ rep.tag }}</span>
@@ -35,7 +35,7 @@
           {% if metric == selected_metric.choice_label %}
             <label for="{{ selected_metric.id_for_label }}" class="btn btn-primary" >
           {% else %}
-            <label for="{{ selected_metric.id_for_label }}" class="btn btn-link" >
+            <label for="{{ selected_metric.id_for_label }}" class="btn btn-info" >
           {% endif %}
             {{ selected_metric.choice_label }}
             <span class="radio">{{ selected_metric.tag }}</span>
@@ -51,7 +51,8 @@
       {% if fig_explanation %} <!-- removes section if no graph -->
         <div class="col-4">
           <div class="row">
-              <img src="/charts_graph/?metric={{ metric }}&amp;rep_id={{ i_rep }}">
+              <!-- <img src="/charts_graph/?metric={{ metric }}&amp;rep_id={{ i_rep }}"> -->
+              {{ fig }}
           </div>
         </div>
       {% endif %}
@@ -71,13 +72,13 @@
     </div>
     
 <!-- DELETE THIS AFTER DEBUGGING -->
-<div class="row">
+<!-- <div class="row">
 posted_data: {{ posted_data }}
 <br>
 real image:
 <br>
 <img src="/metrics_graph/?metric={{ metric }}&amp;rep_id={{ i_rep }}">
-</div>
+</div> -->
 <!-- END OF DELETE -->
   {% endblock %}
 {% endblock %}
