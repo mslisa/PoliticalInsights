@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import pandas as pd
 import matplotlib
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import random
 
 # django specific imports
 from django.shortcuts import render
@@ -111,6 +112,7 @@ def home(request):
             metric = 'Contact'
         rendered_data['metric'] = metric
         rendered_data['selected_metric_form'] = SelectMetric(metrics, initial={'selected_metric': metric})
+        rendered_data['random_img'] = random.sample([metric[0].lower()+i for i in ['1','2','3']], 1)[0]
         logger.error('LISA: 40 {}'.format(metric))
 
         df = ''

@@ -52,7 +52,10 @@
         <div class="col-4">
           <div class="row">
               <!-- <img src="/charts_graph/?metric={{ metric }}&amp;rep_id={{ i_rep }}"> -->
-              {{ fig }}
+              <!-- {{ fig }}<br> -->
+              {% if metric != 'Contact' %}
+                <img src="../static/img/metric_graphs/{{random_img}}.png" height="300" width="380" >
+              {% endif %}
           </div>
         </div>
       {% endif %}
