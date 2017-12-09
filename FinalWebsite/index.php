@@ -1,6 +1,6 @@
 
 <!--
-	Binary by TEMPLATED
+	Built from the template called Binary by TEMPLATED
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
@@ -122,6 +122,8 @@ if(!empty($_GET['focus_id'])){
 $focus_chamber = $chamber_dict[$focus_id];
 $focus_party = $party_dict[$focus_id];
 $focus_name = $name_dict[$focus_id];
+$focus_prefix = 'Senator';
+if($focus_chamber == 'house'){$focus_prefix = 'Representative';}
 
 ?>
 
@@ -171,7 +173,7 @@ $focus_name = $name_dict[$focus_id];
 			<nav id="menu">
 				<ul class="links">
 					<li><a href="index.php">Home</a></li>
-					<li><a href="about/index.html">About</a></li>
+					<li><a href="methodology/index.html">Behind the Curtain</a></li>
 					<!-- <li><a href="elements.html">Elements</a></li> -->
 				</ul>
 			</nav>
@@ -239,7 +241,7 @@ $focus_name = $name_dict[$focus_id];
             <article id="one" class="post style1">
 				<div class="image effectiveness" id="effectiveness"></div>
 				<script>
-                    var margin1 = {top: 40, right: 20, bottom: 30, left: 40},
+                    var margin1 = {top: 40, right: 20, bottom: 40, left: 40},
                         width1 = 600 - margin1.left - margin1.right,
                         height1 = 600 - margin1.top - margin1.bottom,
                         current_id = "<? echo $focus_id;?>", current_party = "<? echo $focus_party;?>", current_chamber="<? echo $focus_chamber;?>",
@@ -339,6 +341,9 @@ $focus_name = $name_dict[$focus_id];
                           })
                           .attr("cx", xMap1)
                           .attr("cy", yMap1)
+                          .style("stroke-width", 1)
+                          .style("stroke", "lightgray")
+                          
                           .style("fill", function(d) {
                             if (d.party == "R") {return "red"}
                             else {return "blue"};})
@@ -347,7 +352,10 @@ $focus_name = $name_dict[$focus_id];
                           //  else {return 0.6};})
                           .attr('fill-opacity', function(d) {
                             if (d.id == current_id) {return 0.9}
-                            else {return 0.1};})
+                            else {return 0.2};})
+                          .attr('stroke-opacity', function(d) {
+                            if (d.id == current_id) {return 0.9}
+                            else {return 0.5};})
                           .on("mouseover", function(d) {
                               tooltip1.transition()
                                    .duration(200)
@@ -367,8 +375,11 @@ $focus_name = $name_dict[$focus_id];
                         .attr("y", 0 - (margin1.top / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
+                        .style('fill', function() {
+                            if (current_party == "R") {return "red"}
+                            else {return "blue"};})
                         .text("<? echo $focus_name . ' (' . $focus_party . ')'?>");   
+                       
                     });
 
                 </script>	
@@ -376,12 +387,21 @@ $focus_name = $name_dict[$focus_id];
                 <div class="content">
 					<div class="inner">
 						<header>
-							<h2><a href="generic.html">Legislative Effectiveness</a></h2>
+							<h2><a target="_blank" href="methodology/#effectiveness">Legislative Effectiveness</a></h2>
 							<p class="info">How effective is my rep at turning a bill into a law?</p>
 						</header>
-						<p>Effectiveness is an indication of how successful members are at writing bills that go on to become law. Being ranked #1 would mean that the member sponsors or cosponsors bills that make it further along in the legislative process, on average, than the rest of the members in his or her caucus. This figure shows the member's effectiveness both as a bill's sponsor (horizontal axis) and cosponsor (vertical axis). Top-right is most effective; bottom-left is least effective.</p>
-                        <p>The size of the circles is determined by the total number of bills that member has sponsored. Hover over any circle to see more detailed information. The selected member is highlighted by having their circle completely filled in.</p>
-                    
+                        <h3>What am I looking at?</h3>
+                        <ul>
+                            <li>Each circle represents a <b>person</b></li>
+                            <li>The size of the circle represents how many bills he or she has sponsored</strong></li>
+                            <li>The color of the circle represents that person's political party</li>
+                            <li>The circle with a dark fill color is your selected representative</li>
+                            <li>Mouse-over circles for more detailed information</li>
+                            <li>Click the names below to change your selection</li>
+                            <li>Click this section's title to see more detail about this metric</li>
+                        </ul>
+						<p>Effectiveness is an indication of how successful members are at writing bills that go on to become law. Being ranked #1 would mean that the member sponsors or cosponsors bills that make it further along in the legislative process, on average, than the rest of the members in his or her caucus. This figure shows the member's effectiveness both as a bill's sponsor (horizontal axis) and cosponsor (vertical axis). Top-right is most effective overall; bottom-left is least effective overall.</p>
+                        
                     
                     <!-- Hide buttons if no reps are identified -->
 						<ul class="actions">
@@ -407,19 +427,25 @@ $focus_name = $name_dict[$focus_id];
                     d3.csv('effectiveness.csv', function(csv){
                         var values = [];
                         var vert_ref = 0
+                        var sponsor_count = 0
+                        var bi_count = 0
                         csv = csv.filter(function(row) {
                             return row.party == '<? echo $focus_party; ?>' & row.congress == '115' & row.chamber == '<? echo $focus_chamber; ?>';
                         })
                         values = csv.map(function(d) {
-                            if(d['id'] == '<? echo $focus_id; ?>'){vert_ref = +d['bi_pct'];}
+                            if(d['id'] == '<? echo $focus_id; ?>'){
+                                vert_ref = +d['bi_pct'];
+                                sponsor_count = +d['sponsor_count']
+                            }
+                            
                             return +d['bi_pct']});
 
                     // Formatters for counts and times (converting numbers to Dates).
                     var formatCount = d3.format(",.0f"),
                         formatPct = d3.format('.0%');
 
-                    var margin = {top: 40, right: 30, bottom: 30, left: 30},
-                        width = 800 - margin.left - margin.right,
+                    var margin = {top: 40, right: 30, bottom: 50, left: 30},
+                        width = 600 - margin.left - margin.right,
                         height = 400 - margin.top - margin.bottom;
 
                     var x = d3.scale.linear()
@@ -456,7 +482,10 @@ $focus_name = $name_dict[$focus_id];
                         .attr("x", 1)
                         .attr("width", x(data[0].dx) - 1)
                         .attr("height", function(d) { return height - y(d.y); })
-                        .style("fill", "black");
+                        .style('fill', function() {
+                            if ("<? echo $focus_party; ?>" == "R") {return "red"}
+                            else {return "blue"};})
+                        .style('opacity', 0.5)
                     console.log(values)
                     bar.append("text")
                         .attr("dy", ".75em")
@@ -472,9 +501,9 @@ $focus_name = $name_dict[$focus_id];
                         .call(xAxis);
                         
                     svg2.append("line")
-                        .attr("x1", x(vert_ref))  //<<== UPDATE X VALUE
+                        .attr("x1", x(vert_ref))
                         .attr("y1", 0)
-                        .attr("x2", x(vert_ref))  //<<== UPDATE X VALUE
+                        .attr("x2", x(vert_ref))
                         .attr("y2", height)
                         .style("stroke-width", 5)
                         .style("stroke", function() { return ( '<? echo $focus_party; ?>' == 'R' ? "red" : "blue");})
@@ -485,18 +514,34 @@ $focus_name = $name_dict[$focus_id];
                         .attr("y", 0 - (margin.top / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
-                        .text("<? echo $focus_name . ' (' . $focus_party . ')'?>"); 
+                        .style('fill', function() { return ( '<? echo $focus_party; ?>' == 'R' ? "red" : "blue");})
+                        .text("<? echo $focus_name . ' (' . $focus_party . ')'?>");   
+                        
+                    svg2.append("text")
+                        .attr("x", (width / 2))
+                        .attr("y", height + 40)
+                        .attr("text-anchor", "middle")
+                        .style("font-size", "16px")
+                        .text("<? echo $focus_prefix; ?> <? echo $focus_name; ?> received bipartisan cosponsorship for " + d3.format('.0%')(vert_ref) + " of sponsored bills.")
                     })
                 </script>
                 
 				<div class="content">
 					<div class="inner">
 						<header>
-							<h2><a href="generic.html">Bipartisanship</a></h2>
+							<h2><a target="_blank" href="methodology/#bipartisanship">Bipartisanship</a></h2>
 							<p class="info">Does my rep sponsor bills that gain support from the opposite party?</p>
 						</header>
-						<p>This Bipartisanship figure indicates the degree to which a member sponsors legislation that garners cosponsorship support from members of the opposite party. Only data from members of the same party are shown. The solid line shows where this particular member falls in his or her party's distribution. For this analysis, a bill is considered to have bipartisan support if at least 25% of its cosponsors were members of a party different from the sponsor's party.</p>
+                        <h3>What am I looking at?</h3>
+                        <ul>
+                            <li>Each bar represents a <b>group</b> of people</li>
+                            <li>The position of the bar from left to right indicates the percentage of those people's bills that gain bipartisan cosponsorship</li>
+                            <li>The height of the bar represents how many legislators are in that group</li>
+                            <li>The color indicates party. In this case, only members of the same party are considered for comparison</li>
+                            <li>Click the names below to change your selection</li>
+                            <li>Click this section's title to see more detail about this metric</li>
+                        </ul>
+						<p>This Bipartisanship figure shows how <? echo $focus_prefix; ?> <? echo $focus_name; ?> compares to other members of the same party with respect to getting support from accross the aisle for sponsored legislation. For the purpose of this analysis, we a bill to have bipartisan support if at least 25% of its cosponsors are members of the opposite party.</p>
                     
                         <ul class="actions">
 							<li><a href="?address=<?php echo urlencode($_GET['address']);?>&focus_id=<?php echo $s1_id;?>#vis2" class="button alt"><?php echo $g_reps_array[0]['name'];?></a></li>
@@ -511,7 +556,7 @@ $focus_name = $name_dict[$focus_id];
 
 		<!-- Three -->
         <a id="vis3"></a>
-			<article id="three" class="post style2">
+			<article id="three" class="post style1">
                 <div class="image effectiveness" id="financial"></div>
                 <script>
                 var margin2 = {top: 40, right: 20, bottom: 30, left: 40},
@@ -519,7 +564,7 @@ $focus_name = $name_dict[$focus_id];
                     height2 = 500 - margin2.top - margin2.bottom,
                     current_id = "<? echo $focus_id;?>", current_party = "<? echo $focus_party;?>", current_chamber="<? echo $focus_chamber;?>",
                     current_congress = 115;
-
+                    
                 /* 
                  * value accessor - returns the value to encode for a given data object.
                  * scale - maps value to a visual display encoding, such as a pixel position.
@@ -543,8 +588,11 @@ $focus_name = $name_dict[$focus_id];
                 var svg3 = d3.select("#financial").append("svg")
                     .attr("width", width2 + margin2.left + margin2.right)
                     .attr("height", height2 + margin2.top + margin2.bottom)
-                  .append("g")
-                    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+                    //.call(d3.behavior.zoom().on("zoom", function () {
+                    //    svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                    //}))
+                    .append("g")
+                    /*.attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");*/
 
                 // add the tooltip area to the webpage
                 var tooltip3 = d3.select("body").append("div")
@@ -594,22 +642,30 @@ $focus_name = $name_dict[$focus_id];
                     .enter().append("circle")
                     //.filter(function(d) { return d.chamber == current_chamber & d.congress == current_congress })
                       .attr("class", "dot")
-                      .attr("r", function(d) {
+                      /*.attr("r", function(d) {
                             if(d['0'] == current_id) {return 15}
                             else if(d['4'].charAt(0) == current_party) {return 4}
-                            else {return 2};})
+                            else {return 2};})*/
+                      .attr("r", 4)
                       .attr("cx", xMap2)
                       .attr("cy", yMap2)
                       .style("fill", function(d) {
                         if (d['4'] == "REP") {return "red"}
                         else {return "blue"};})
-                      .style("stroke", function(d) {
+                      /*.style("stroke", function(d) {
                         if (d['4'] == "REP") {return "red"}
-                        else {return "blue"};})
+                        else {return "blue"};})*/
+                      .style("stroke", "lightgray")
+                      .attr('stroke-opacity', function(d) {
+                            if (d.id == current_id) {return 0.9}
+                            else {return 0.5};})
                       .attr('fill-opacity', function(d) {
+                            if (d['0'] == current_id) {return 0.9}
+                            else {return 0.2};})
+                      /*.attr('fill-opacity', function(d) {
                             if(d['0'] == current_id) {return .9}
                             else if (d['4'].charAt(0) == current_party) {return 0.3}
-                            else {return 0.1};})  
+                            else {return 0.1};})  */
                       .on("mouseover", function(d) {
                           tooltip3.transition()
                                .duration(200)
@@ -632,14 +688,25 @@ $focus_name = $name_dict[$focus_id];
                         .style("text-decoration", "underline")  
                         .text("<? echo $focus_name . ' (' . $focus_party . ')'?>");                        
                 });
-
+                
                 </script>   
 				<div class="content">
 					<div class="inner">
 						<header>
-							<h2><a href="generic.html">Campaign Contribution Sources</a></h2>
+							<h2><a target="_blank" href="methodology/#financial">Campaign Contribution Sources</a></h2>
 							<p class="info">How does my rep compare for contributions from individuals and PACs?</p>
 						</header>
+                        <h3>What am I looking at?</h3>
+                        <ul>
+                            <li>Each circle represents a <b>person</b></li>
+                            <li>The horizontal position shows how much money came from individual donors in the last campaign</li>
+                            <li>The vertical position shows how much money came from Political Action Committees in the last campaign</li>
+                            <li>The color indicates party</li>
+                            <li>The circle with a dark fill color is your selected representative. <i>note: some representatives are missing from the dataset. We apologize for the inconvenience.</i></li>
+                            <li>Mouse-over circles for more detailed information</li>
+                            <li>Click the names below to change your selection</li>
+                            <li>Click this section's title to see more detail about this metric</li>
+                        </ul>
 						<p>When conducting their campaigns, representatives accept donations from both private individuals as well as Political Action Committees (PACS), organizations that collect financial contributions from their members and use the funds to aid or hinder candidate campaigns, or legislation. This plot shows the dollar amounts members received for both types of sources. There are a few cases of missing data, so if you do not see a large filled-in circle, it means that your selected representative's data is not available.</p>
 
                     <!-- Hide buttons if no reps are identified -->
@@ -655,7 +722,7 @@ $focus_name = $name_dict[$focus_id];
 			</article>
 
 		<!-- Four -->
-			<article id="four" class="post invert style2 alt">
+			<article id="four" class="post invert style1 alt">
 				<div class="image">
 					Placeholder for d3 script or some other featured thing.
 				</div>
@@ -674,7 +741,7 @@ $focus_name = $name_dict[$focus_id];
 			</article>
 
 		<!-- Five -->
-			<article id="five" class="post style3">
+			<article id="five" class="post style1">
 				<div class="image">
 					Placeholder for d3 script or some other featured thing.
 				</div>
@@ -693,7 +760,7 @@ $focus_name = $name_dict[$focus_id];
 			</article>
 
 		<!-- Six -->
-			<article id="six" class="post invert style3 alt">
+			<article id="six" class="post invert style1 alt">
 				<div class="image">
 					Placeholder for d3 script or some other featured thing.
 				</div>
