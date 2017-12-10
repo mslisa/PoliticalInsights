@@ -53,10 +53,10 @@
 * C - SM IP center - Hoverover grey box could use more of a boarder so it's not so tight on cursor.
 
 ### Bipartisan
-* C - The bullets were skipped since they were assumed to be the same as prior graph. Drew some confusions on the graph until user realized to read the bullets. Not sure if there's a way to fix this? Maybe make the whole this less word heavy?
+* W - The bullets were skipped since they were assumed to be the same as prior graph. Drew some confusions on the graph until user realized to read the bullets. Not sure if there's a way to fix this? Maybe make the whole this less word heavy?
 * C - SM IP Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
 
 ### Finance
 * M - SM it's No title or y-axis numbers/major ticks.
 * S - LB IP title case and push to github - Rep names are now capitalized and were camel case in prior graphs. Do we just fix in data?
-* C - Have the comment on no data for the person only show up if there isn't data for the person?
+* W - Have the comment on no data for the person only show up if there isn't data for the person?
