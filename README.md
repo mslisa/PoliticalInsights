@@ -40,9 +40,11 @@
 * S - SM IP Dynamic text below effectiveness, contributions - Can we add data tables below graphs with the selected rep's numbers?
 * S - LM IP CSS of nav bar - Have the black bar
 
-
 ### Top of page
 * C - SM IP - Make address bar constant so you can switch addresses.
+
+### Effectiveness
+* S - LM changing up csv to have 10 additional columns with breakout of topics.
 
 ### Bipartisan
 * C - SM IP Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
@@ -50,6 +52,10 @@
 ### Finance
 * M - SM finding where it went - No title or y-axis numbers/major ticks.
 * S - LB title case and push to github - Rep names are now capitalized and were camel case in prior graphs. Do we just fix in data?
+
+## Twitter
+* C - LB converting data to correct format and sending code to Scott
+* C - SM adding code to site
 * S - LB write up - Explanation on the methodology page.
 
 ### Contact
