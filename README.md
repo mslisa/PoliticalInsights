@@ -37,17 +37,13 @@
 
 ### Overall
 * C - LM Low Priority d3 reaction? - Can we make graph points "jump" to new position?
-* S - SM IP Dynamic text below effectiveness, contributions - Can we add data tables below graphs with the selected rep's numbers?
-* S - LM IP CSS of nav bar - Have the black bar
+* S - SM Dynamic text below effectiveness, contributions - Can we add data tables below graphs with the selected rep's numbers?
 
 ### Top of page
-* C - SM IP - Make address bar constant so you can switch addresses.
-
-### Effectiveness
-* S - LM changing up csv to have 10 additional columns with breakout of topics.
+* C - SM - Make address bar constant so you can switch addresses.
 
 ### Bipartisan
-* C - SM IP Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
+* C - SM Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
 
 ### Finance
 * M - SM finding where it went - No title or y-axis numbers/major ticks.
