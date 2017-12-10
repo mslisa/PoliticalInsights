@@ -36,29 +36,27 @@
 ## Questions and Issues (MoSCoW)
 
 ### Overall
-* C - Where did the contact information per rep go?
-* C - Graphs scalable to phone? They're running off the page; is there a dynamic setting?
-* C - Can we make graph points "jump" to new position?
-* C -Can we add data tables below graphs with the selected rep's numbers?
+* S - LB IP - Where did the contact information per rep go?
+* S - LM IP Future Enhancement - Graphs scalable to phone? They're running off the page; is there a dynamic setting?
+* C - LM IP Future Enhancement - Can we make graph points "jump" to new position?
+* S - SM IP Dynamic text below effectiveness, contributions - Can we add data tables below graphs with the selected rep's numbers?
+* S - LM IP CSS of nav bar - Have the black bar
 
 ### Top of page
-* S - Make address bar constant so you can switch addresses.
-* S - Can we add a button to submit for address? Mom didn't think to push return/enter to submit.
-* C - Can we make images buttons to impact rest of form?
+* C - SM IP - Make address bar constant so you can switch addresses.
+* C - LM IP Future Enhancement - Can we add a button to submit for address? Mom didn't think to push return/enter to submit.
+* C - LM IP Future Enhancement - Can we make images buttons to impact rest of form?
 
 ### Effectiveness
-* C - Can we set score as 1 - [score]/100 or something? The large number at [0,0] was confusing.
-* C - Hoverover grey on grey was hard to read.
-* C - Hoverover grey box could use more of a boarder so it's not so tight on cursor.
-* S - For HOR graph, those vertical bars that pop up drew questions. Can we include a quick analysis blurb to explain *if* the house of representative rep is selected?
+* C - LM IP Future Enhancements - Can we set score as 1 - [score]/100 or something? The large number at [0,0] was confusing.
+* C - LM IP Future Enhancements - Hoverover grey on grey was hard to read.
+* C - SM IP center - Hoverover grey box could use more of a boarder so it's not so tight on cursor.
 
 ### Bipartisan
 * C - The bullets were skipped since they were assumed to be the same as prior graph. Drew some confusions on the graph until user realized to read the bullets. Not sure if there's a way to fix this? Maybe make the whole this less word heavy?
-* C - The lack of hover for this graph was interpreted as something was broken.
-* S - The line isn't at the same place per bar and covers the number sometimes.
+* C - SM IP Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
 
 ### Finance
-* M - No title or y-axis numbers/major ticks.
-* C - Rep names are now capitalized and were camel case in prior graphs. Do we just fix in data?
-* C - Hoverover grey box could use more of a boarder so it's not so tight on cursor.
+* M - SM it's No title or y-axis numbers/major ticks.
+* S - LB IP title case and push to github - Rep names are now capitalized and were camel case in prior graphs. Do we just fix in data?
 * C - Have the comment on no data for the person only show up if there isn't data for the person?
