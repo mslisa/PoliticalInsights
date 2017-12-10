@@ -45,18 +45,9 @@
 ### Bipartisan
 * C - SM Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
 
-### Finance
-* M - SM finding where it went - No title or y-axis numbers/major ticks.
-* S - LB title case and push to github - Rep names are now capitalized and were camel case in prior graphs. Do we just fix in data?
-
 ## Twitter
 * C - LB converting data to correct format and sending code to Scott
-* C - SM adding code to site
 * S - LB write up - Explanation on the methodology page.
-
-### Contact
-* S - LB generate - Create the contact information data source
-* S - SM to pull into website
 
 ## Potential updates for future
 * Update ranking on effectiveness so large numbers are in anticipated area. Right now rank 1 being furthes from axis crossing is unintuitive.
