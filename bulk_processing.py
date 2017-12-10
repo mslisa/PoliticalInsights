@@ -236,14 +236,22 @@ def aggregate_scores_by_person(person):
         person['cosponsor_mean'] = 0.0
     person['cosponsor_status_counts'] = {x: len([i for i in person['cosponsor_scores'] if i == status_scores[x]]) for x in status_scores}
     
+
 def aggregate_subjects_by_person(person):
     ss = person['sponsor_subjects']
     s_top5 = sorted(ss, key=ss.__getitem__, reverse=True)[:5]
     person['top_sponsor_subjects'] = [(x, ss[x]) for x in s_top5]
+    # makes a column per 
+    for i, x in enumerate(s_top5):
+        person['top_sponsor_subjects_' + str(i) + "_text"] = x
+        person['top_sponsor_subjects_' + str(i) + "_count"] = ss[x]
     
     cs = person['cosponsor_subjects']
     c_top5 = sorted(cs, key=cs.__getitem__, reverse=True)[:5]
     person['top_cosponsor_subjects'] = [(x, cs[x]) for x in c_top5]
+    for i, x in enumerate(c_top5):
+        person['top_cosponsor_subjects_' + str(i) + "_text"] = x
+        person['top_cosponsor_subjects_' + str(i) + "_count"] = cs[x]
     
 def ppp(bill, bipart_threshold=.25):
     '''
@@ -565,7 +573,27 @@ for cngrss in ['115','114','113']:
               'bi_sponsor_count',
               'bi_sponsor_bi',
               'top_sponsor_subjects',
-              'top_cosponsor_subjects']
+              'top_sponsor_subjects_1_text',
+              'top_sponsor_subjects_1_count',
+              'top_sponsor_subjects_2_text',
+              'top_sponsor_subjects_2_count',
+              'top_sponsor_subjects_3_text',
+              'top_sponsor_subjects_3_count',
+              'top_sponsor_subjects_4_text',
+              'top_sponsor_subjects_4_count',
+              'top_sponsor_subjects_5_text',
+              'top_sponsor_subjects_5_count',
+              'top_cosponsor_subjects'
+              'top_cosponsor_subjects_1_text',
+              'top_cosponsor_subjects_1_count',
+              'top_cosponsor_subjects_2_text',
+              'top_cosponsor_subjects_2_count',
+              'top_cosponsor_subjects_3_text',
+              'top_cosponsor_subjects_3_count',
+              'top_cosponsor_subjects_4_text',
+              'top_cosponsor_subjects_4_count',
+              'top_cosponsor_subjects_5_text',
+              'top_cosponsor_subjects_5_count',]
 
     senate_rows_list = []
     house_rows_list = []
