@@ -28,22 +28,18 @@
 </body>
 <script>
 
-    d3.csv('word_cloud.tsv', function(csv){
-    var frequency_list = [{'text': '#HoldTrumpAccountableFor', 'size': 53}, {'text': '#SexualAssault', 'size': 98}, {'text': '#ObstructionofJustice', 'size': 70}, {'text': '#WitnessTampering', 'size': 60}, {'text': 'Economic', 'size': 98}, {'text': 'Hitler', 'size': 93}, {'text': 'idea', 'size': 41}, {'text': '#iceland', 'size': 92}, {'text': 'similar', 'size': 16}, {'text': '#Oregon', 'size': 89}, {'text': '#CAlifornia', 'size': 83}, {'text': '#impeachtrump', 'size': 47}, {'text': 'increased', 'size': 47}, {'text': 'beef', 'size': 49}, {'text': 'trade?', 'size': 27}, {'text': '#resistance', 'size': 28}, {'text': '#impeach45?', 'size': 25}, {'text': '#Thanks4HeadStart', 'size': 17}];
-
-    csv = csv.filter(function(row) {
-        return row.current_id == "H001075";
-    })
-    values = csv.map(function(d) {return +d['word_list']});
-
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 500 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom,
-    current_id = "H001075";
-
+    height = 500 - margin.top - margin.bottom;
 
     
-    // var frequency_list = [{'text': '#HoldTrumpAccountableFor', 'size': 53}, {'text': '#SexualAssault', 'size': 98}, {'text': '#ObstructionofJustice', 'size': 70}, {'text': '#WitnessTampering', 'size': 60}, {'text': 'Economic', 'size': 98}, {'text': 'Hitler', 'size': 93}, {'text': 'idea', 'size': 41}, {'text': '#iceland', 'size': 92}, {'text': 'similar', 'size': 16}, {'text': '#Oregon', 'size': 89}, {'text': '#CAlifornia', 'size': 83}, {'text': '#impeachtrump', 'size': 47}, {'text': 'increased', 'size': 47}, {'text': 'beef', 'size': 49}, {'text': 'trade?', 'size': 27}, {'text': '#resistance', 'size': 28}, {'text': '#impeach45?', 'size': 25}, {'text': '#Thanks4HeadStart', 'size': 17}];
+    d3.json("testdata.json", function(error,data) {  
+    var frequency_list = data.filter(function(d) { return d.rep_id == "B001301"; })
+    console.log(frequency_list)
+
+	data.forEach(function(d) {
+	 	d.size = +d.size;
+	    });
 
 
     var color = d3.scale.linear()
