@@ -36,29 +36,31 @@
 ## Questions and Issues (MoSCoW)
 
 ### Overall
-* C - Where did the contact information per rep go?
-* C - Graphs scalable to phone? They're running off the page; is there a dynamic setting?
-* C - Can we make graph points "jump" to new position?
-* C -Can we add data tables below graphs with the selected rep's numbers?
+* C - LM Low Priority d3 reaction? - Can we make graph points "jump" to new position?
+* S - SM Dynamic text below effectiveness, contributions - Can we add data tables below graphs with the selected rep's numbers?
 
 ### Top of page
-* S - Make address bar constant so you can switch addresses.
-* S - Can we add a button to submit for address? Mom didn't think to push return/enter to submit.
-* C - Can we make images buttons to impact rest of form?
-
-### Effectiveness
-* C - Can we set score as 1 - [score]/100 or something? The large number at [0,0] was confusing.
-* C - Hoverover grey on grey was hard to read.
-* C - Hoverover grey box could use more of a boarder so it's not so tight on cursor.
-* S - For HOR graph, those vertical bars that pop up drew questions. Can we include a quick analysis blurb to explain *if* the house of representative rep is selected?
+* C - SM - Make address bar constant so you can switch addresses.
 
 ### Bipartisan
-* C - The bullets were skipped since they were assumed to be the same as prior graph. Drew some confusions on the graph until user realized to read the bullets. Not sure if there's a way to fix this? Maybe make the whole this less word heavy?
-* C - The lack of hover for this graph was interpreted as something was broken.
-* S - The line isn't at the same place per bar and covers the number sometimes.
+* C - SM Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
 
 ### Finance
-* M - No title or y-axis numbers/major ticks.
-* C - Rep names are now capitalized and were camel case in prior graphs. Do we just fix in data?
-* C - Hoverover grey box could use more of a boarder so it's not so tight on cursor.
-* C - Have the comment on no data for the person only show up if there isn't data for the person?
+* M - SM finding where it went - No title or y-axis numbers/major ticks.
+* S - LB title case and push to github - Rep names are now capitalized and were camel case in prior graphs. Do we just fix in data?
+
+## Twitter
+* C - LB converting data to correct format and sending code to Scott
+* C - SM adding code to site
+* S - LB write up - Explanation on the methodology page.
+
+### Contact
+* S - LB generate - Create the contact information data source
+* S - SM to pull into website
+
+## Potential updates for future
+* Update ranking on effectiveness so large numbers are in anticipated area. Right now rank 1 being furthes from axis crossing is unintuitive.
+* Edit wording to be more efficient and streamlined.
+* Have dynamic comments per graph. Examples:
+  * Finance comment that no data is found for person only when perosn has no data.
+  * The house of representative view of effectiveness has a naturally occuring vertical bar. Describe why this is happening when it appears.
