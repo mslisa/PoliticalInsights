@@ -37,8 +37,7 @@
 
 ### Overall
 * C - LM Low Priority d3 reaction? - Can we make graph points "jump" to new position?
-* S - SM - Save new images for the methodologies page after updates to graph.
-* S - LM - figure out what's going wrong with menu.
+* C - LM - Find lines to make text match between sites
 
 ### Top of page
 * C - SM - Make address bar constant so you can switch addresses.
@@ -47,7 +46,7 @@
 * C - SM Low Priority - The lack of hover for this graph was interpreted as something was broken.
 
 ### Financial
-* C - SM Add the dashed lines to graph
+* S - LB - Why are people missing? Eg Jeff Merkley.
 
 ### Twitter
 * S - LB - Clean up numbers and text in wordcloud
