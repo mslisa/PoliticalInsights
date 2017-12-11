@@ -37,18 +37,21 @@
 
 ### Overall
 * C - LM Low Priority d3 reaction? - Can we make graph points "jump" to new position?
+* S - SM - Save new images for the methodologies page after updates to graph.
+* S - LM - figure out what's going wrong with menu.
 
 ### Top of page
 * C - SM - Make address bar constant so you can switch addresses.
 
-### Effectiveness
-* C - SM Dynamic text below graph - Add data table below graph
-
 ### Bipartisan
-* C - SM Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
+* C - SM Low Priority - The lack of hover for this graph was interpreted as something was broken.
 
 ### Financial
-* C - SM Dynamic text below graph - Add data table below graph
+* C - SM Add the dashed lines to graph
+
+### Twitter
+* S - LB - Clean up numbers and text in wordcloud
+* C - LB - Figure out why trumr28 is showing up
 
 ## Potential updates for future
 * Update ranking on effectiveness so large numbers are in anticipated area. Right now rank 1 being furthes from axis crossing is unintuitive.
