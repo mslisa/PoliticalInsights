@@ -49,7 +49,7 @@
     d3.layout.cloud().size([800, 300])
             .words(frequency_list)
             .rotate(0)
-            .fontSize(function(d) { return d.size; })
+            .fontSize(function(d) { return d.size*0.3; })
             .on("end", draw)
             .start();
 
