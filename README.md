@@ -4,7 +4,7 @@
 * Initial proposal: https://docs.google.com/document/d/1ZttaQalC6Si81o8bVNPymqfdY3DjCKr2_sSCF8Ytfeo/edit?usp=sharing
 * Progress Report Week 4: https://docs.google.com/document/d/19y70UGbrxiNAH4ylYzBqs5Cg5TbUO97UKbrHVJ9cKXQ/edit#heading=h.vp5m1z6k4yhp
 * Presentation Week 6: https://docs.google.com/presentation/d/1VvlkrU7ksasAXdBGLOyEc8xT_gFi4ZLmoJJh5K9s0vU/edit?usp=sharing
-* Presentation Week 10:
+* Presentation Week 10: 
 * Presentation Final: 
 * Notes: https://docs.google.com/document/d/1A6Spt8Dqo6v1g-rpkcFijOZNgdDY6Dlz8TDcKzJLQ78/edit
 
@@ -37,17 +37,18 @@
 
 ### Overall
 * C - LM Low Priority d3 reaction? - Can we make graph points "jump" to new position?
-* S - SM Dynamic text below effectiveness, contributions - Can we add data tables below graphs with the selected rep's numbers?
 
 ### Top of page
 * C - SM - Make address bar constant so you can switch addresses.
 
+### Effectiveness
+* C - SM Dynamic text below graph - Add data table below graph
+
 ### Bipartisan
 * C - SM Bottom of to-do list - The lack of hover for this graph was interpreted as something was broken.
 
-## Twitter
-* C - LB converting data to correct format and sending code to Scott
-* S - LB write up - Explanation on the methodology page.
+### Financial
+* C - SM Dynamic text below graph - Add data table below graph
 
 ## Potential updates for future
 * Update ranking on effectiveness so large numbers are in anticipated area. Right now rank 1 being furthes from axis crossing is unintuitive.
